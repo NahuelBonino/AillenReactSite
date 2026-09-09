@@ -3,13 +3,13 @@ import { gsap } from "gsap"
 import { useGSAP } from "@gsap/react"
 import useGsapReveal from './hooks/useGsapReveal'
 import useTimelineDraw from './hooks/useTimelineDraw'
+import { prefersReducedMotion } from './hooks/usePrefersReducedMotion'
 import Navbar from './components/Navbar'
 import Intro from './components/Intro'
 import FeatureList from './components/FeatureList'
 import Gallery from './components/Gallery'
 import VideoPanel from './components/VideoPanel'
 import CtaButtons from './components/CtaButtons'
-import ContactForm from './components/ContactForm'
 import ContactFooter from './components/ContactFooter'
 import Copyright from './components/Copyright'
 import ChatWidget from './components/chatbot/ChatWidget'
@@ -23,7 +23,7 @@ function App() {
   useTimelineDraw()
 
   useGSAP(() => {
-    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    const prefersReduced = prefersReducedMotion()
 
     if (prefersReduced) {
       setReady(true)
@@ -50,17 +50,14 @@ function App() {
   }, { scope: wrapperRef })
 
   return (
-    <div id="wrapper" ref={wrapperRef} style={{ opacity: 0 }}>
+    <div id="wrapper" className="wrapper" ref={wrapperRef} style={{ opacity: ready ? 1 : 0 }}>
       <Navbar />
       <Intro />
 
-      <section id="first">
+      <section id="first" className="quien-soy">
         <header><h2>{first.title}</h2></header>
         <div className="content">
           <p dangerouslySetInnerHTML={{ __html: first.text }}></p>
-          <span className="image main">
-            <img src="/images/pic02.jpg" alt={first.title} />
-          </span>
         </div>
       </section>
 
@@ -84,19 +81,20 @@ function App() {
         <header><h2>{gallery.title}</h2></header>
         <div className="content">
           <p dangerouslySetInnerHTML={{ __html: gallery.leadText }}></p>
-          {gallery.sections.map((section, idx) => (
-            <div className="sub-section" key={idx}>
-              <header>
-                <h3>{section.title}</h3>
-                <p>{section.text}</p>
-              </header>
-              <div className="content">
-                <Gallery images={section.images} />
-              </div>
-            </div>
-          ))}
         </div>
       </section>
+
+      {gallery.sections.map((section, idx) => (
+        <section className="gallery-row" key={idx}>
+          <header>
+            <h3>{section.title}</h3>
+            <p>{section.text}</p>
+          </header>
+          <div className="content">
+            <Gallery images={section.images} />
+          </div>
+        </section>
+      ))}
 
       <VideoPanel
         tiktokUrl={videoPanels[1].tiktokUrl}
@@ -109,19 +107,16 @@ function App() {
         <header><h2>{cta.title}</h2></header>
         <div className="content">
           <p dangerouslySetInnerHTML={{ __html: cta.text }}></p>
-          <CtaButtons />
+          <CtaButtons buttons={cta.buttons} />
         </div>
       </section>
 
-      <section id="contacto">
+      <section id="contacto" className="contacto">
         <header><h2>{contact.title}</h2></header>
         <div className="content">
           <p dangerouslySetInnerHTML={{ __html: contact.text }}></p>
-          <ContactForm />
+          <ContactFooter socials={socials} ushas={contact.ushas} />
         </div>
-        <footer>
-          <ContactFooter contact={contact} socials={socials} />
-        </footer>
       </section>
 
       <Copyright />

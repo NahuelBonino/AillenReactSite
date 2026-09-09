@@ -1,8 +1,18 @@
-export default function CtaButtons() {
+export default function CtaButtons({ buttons = [] }) {
   return (
     <ul className="actions">
-      <li><a href="#" className="button primary large">Get Started</a></li>
-      <li><a href="#" className="button large">Learn More</a></li>
+      {buttons.map((button, idx) => (
+        <li key={idx}>
+          <a
+            href={button.url}
+            className={`button large ${button.primary ? 'primary' : ''}`.trim()}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {button.label}
+          </a>
+        </li>
+      ))}
     </ul>
   )
 }

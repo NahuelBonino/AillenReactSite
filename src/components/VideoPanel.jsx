@@ -3,6 +3,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
 import TikTokEmbed from './TikTokEmbed'
+import { prefersReducedMotion } from '../hooks/usePrefersReducedMotion'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -11,7 +12,7 @@ export default function VideoPanel({ tiktokUrl, title, leadText, paragraphs }) {
   const panelRef = useRef(null)
 
   useGSAP(() => {
-    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    const prefersReduced = prefersReducedMotion()
     if (prefersReduced) return
 
     gsap.fromTo(panelRef.current,

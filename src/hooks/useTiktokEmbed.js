@@ -1,71 +1,55 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function useTiktokEmbed({ tiktokUrl, triggerRef }) {
-  const wrapRef = useRef(null)
-  const [embedHtml, setEmbedHtml] = useState(null)
+  const [visible, setVisible] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
   const [metadata, setMetadata] = useState(null)
-  const [error, setError] = useState(false)
 
+  const shouldLoad = !tiktokUrl || tiktokUrl.startsWith('TIKTOK_VIDEO_URL')
+
+  // Detecta mobile (<=736px): ahí se muestra tarjeta con thumbnail en vez de iframe
   useEffect(() => {
-    const shouldLoad = !tiktokUrl || tiktokUrl.startsWith('TIKTOK_VIDEO_URL')
+    if (shouldLoad) return
+    const mq = window.matchMedia('(max-width: 736px)')
+    const update = () => setIsMobile(mq.matches)
+    update()
+    mq.addEventListener?.('change', update)
+    return () => mq.removeEventListener?.('change', update)
+  }, [tiktokUrl, shouldLoad])
 
-    if (shouldLoad) {
-      setError(true)
+  // Metadata (thumbnail) por oEmbed — se usa en la tarjeta mobile / fallback
+  useEffect(() => {
+    if (shouldLoad) return
+    let alive = true
+    fetch(`https://www.tiktok.com/oembed?url=${encodeURIComponent(tiktokUrl)}`)
+      .then((res) => (res.ok ? res.json() : Promise.reject()))
+      .then((data) => { if (alive) setMetadata(data) })
+      .catch(() => {})
+    return () => { alive = false }
+  }, [tiktokUrl, shouldLoad])
+
+  // Lazy load del iframe (desktop) cuando entra al viewport
+  useEffect(() => {
+    const el = triggerRef.current
+    if (shouldLoad || isMobile || !el) return
+
+    if (typeof IntersectionObserver === 'undefined') {
+      setVisible(true)
       return
-    }
-
-    const loadEmbed = () => {
-      fetch(`https://www.tiktok.com/oembed?url=${encodeURIComponent(tiktokUrl)}`)
-        .then(res => {
-          if (!res.ok) throw new Error('oEmbed failed')
-          return res.json()
-        })
-        .then(data => {
-          setMetadata(data)
-          const holder = document.createElement('div')
-          holder.innerHTML = data.html
-          const blockquote = holder.querySelector('blockquote.tiktok-embed')
-          if (blockquote) {
-            setEmbedHtml(blockquote.outerHTML)
-          } else {
-            setError(true)
-          }
-        })
-        .catch(() => setError(true))
     }
 
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
-          loadEmbed()
+          setVisible(true)
           observer.disconnect()
         }
       },
-      { rootMargin: "0px 0px 50px 0px" }
+      { rootMargin: '0px 0px 50px 0px' }
     )
-
-    if (triggerRef.current) {
-      observer.observe(triggerRef.current)
-    }
-
+    observer.observe(el)
     return () => observer.disconnect()
-  }, [tiktokUrl, triggerRef])
+  }, [tiktokUrl, triggerRef, isMobile, shouldLoad])
 
-  useEffect(() => {
-    if (!embedHtml) return
-
-    const script = document.createElement('script')
-    script.async = true
-    script.src = "https://www.tiktok.com/embed.js"
-    script.dataset.embedLoaded = "true"
-    document.body.appendChild(script)
-
-    return () => {
-      if (script.parentNode) {
-        script.parentNode.removeChild(script)
-      }
-    }
-  }, [embedHtml])
-
-  return { wrapRef, embedHtml, metadata, error }
+  return { visible, isMobile, metadata, hasVideo: !shouldLoad }
 }

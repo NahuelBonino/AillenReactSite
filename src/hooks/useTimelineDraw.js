@@ -1,22 +1,29 @@
 import { useEffect } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { prefersReducedMotion } from './usePrefersReducedMotion'
 
 gsap.registerPlugin(ScrollTrigger)
 
 export default function useTimelineDraw() {
   useEffect(() => {
-    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    const prefersReduced = prefersReducedMotion()
 
     const ctx = gsap.context(() => {
       document.querySelectorAll('#wrapper > section').forEach((section) => {
+        // El intro (hero) no lleva línea de timeline
+        if (section.classList.contains('intro')) return
+
         const header = section.querySelector(':scope > header')
         if (!header) return
 
+        // Línea anclada a la SECCIÓN (no al header) para que quede en la columna izquierda
+        section.style.position = 'relative'
+        header.style.position = 'relative'
+
         const line = document.createElement('div')
         line.className = 'timeline-line'
-        header.style.position = 'relative'
-        header.appendChild(line)
+        section.appendChild(line)
 
         if (prefersReduced) return
 

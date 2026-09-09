@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function Gallery({ images }) {
   const [activeImage, setActiveImage] = useState(null)
@@ -14,6 +14,19 @@ export default function Gallery({ images }) {
     setLoaded(false)
     setTimeout(() => setActiveImage(null), 100)
   }
+
+  useEffect(() => {
+    if (activeImage === null) return
+    document.body.style.overflow = 'hidden'
+    const handleKey = (e) => {
+      if (e.key === 'Escape') closeLightbox()
+    }
+    window.addEventListener('keydown', handleKey)
+    return () => {
+      document.body.style.overflow = ''
+      window.removeEventListener('keydown', handleKey)
+    }
+  }, [activeImage])
 
   return (
     <>

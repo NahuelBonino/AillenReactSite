@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { useGSAP } from '@gsap/react'
+import { prefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
 
 export default function ChatPanel({ open, onClose }) {
   const panelRef = useRef(null)
@@ -11,7 +12,7 @@ export default function ChatPanel({ open, onClose }) {
   const [typing, setTyping] = useState(false)
 
   useGSAP(() => {
-    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    const prefersReduced = prefersReducedMotion()
 
     if (open) {
       panelRef.current.hidden = false
@@ -22,7 +23,10 @@ export default function ChatPanel({ open, onClose }) {
         { opacity: 1, y: 0, scale: 1, duration: 0.3, ease: "power3.out" }
       )
       setTimeout(() => inputRef.current?.focus(), 350)
-    } else if (!prefersReduced) {
+    } else if (prefersReduced) {
+      // Sin animación (reduced motion): ocultar directo
+      panelRef.current.hidden = true
+    } else {
       gsap.to(panelRef.current, {
         opacity: 0,
         y: 1,
@@ -71,7 +75,7 @@ export default function ChatPanel({ open, onClose }) {
           <span>Asistente</span>
         </div>
         <button className="chat-close" onClick={onClose} aria-label="Cerrar chat">
-          <span className="icon solid fa-xmark"></span>
+          <span className="icon solid fa-times"></span>
         </button>
       </header>
       <div className="chat-messages">

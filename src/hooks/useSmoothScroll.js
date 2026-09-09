@@ -1,15 +1,17 @@
 import { useCallback } from 'react'
 import { gsap } from 'gsap'
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
+import { prefersReducedMotion } from './usePrefersReducedMotion'
 
 gsap.registerPlugin(ScrollToPlugin)
 
 export default function useSmoothScroll() {
   const scrollTo = useCallback((target, offsetY = 100) => {
-    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    const prefersReduced = prefersReducedMotion()
 
     if (prefersReduced) {
-      document.querySelector(target)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      // Reduced motion: salto instantáneo, sin smooth
+      document.querySelector(target)?.scrollIntoView({ behavior: 'auto', block: 'start' })
       return
     }
 

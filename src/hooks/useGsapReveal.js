@@ -1,12 +1,13 @@
 import { useEffect } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { prefersReducedMotion } from './usePrefersReducedMotion'
 
 gsap.registerPlugin(ScrollTrigger)
 
 export default function useGsapReveal() {
   useEffect(() => {
-    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    const prefersReduced = prefersReducedMotion()
     if (prefersReduced) return
 
     const ctx = gsap.context(() => {

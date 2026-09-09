@@ -192,18 +192,20 @@ https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,600,700,300i,600i,70
 }
 ```
 
-### 3.2 Fondo de la columna izquierda (patrón geométrico)
+### 3.2 Fondo de la columna izquierda (gradiente + grano)
 
-`#wrapper:before` dibuja el fondo acento + patrón que ocupa la mitad izquierda **detrás de todo**:
+`#wrapper:before` dibuja el fondo (gradiente + grano) que ocupa la mitad izquierda **detrás de todo**:
 
 ```css
 #wrapper:before {
   background-attachment: fixed;
-  background-color: var(--accent);            /* #df3c01 */
-  background-image: url("<SVG patrón geométrico>");
-  background-position: -50% 10%;
-  background-repeat: repeat-y;
-  background-size: 75% auto;
+  background-color: #FF7842;                  /* fallback */
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='table' tableValues='0 0.32'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E"),
+    radial-gradient(circle, rgba(255,120,66,1) 0%, rgba(253,29,29,1) 100%, rgba(252,176,69,1) 54%);
+  background-size: 120px 120px, cover;
+  background-repeat: repeat, no-repeat;
+  background-position: 0 0, center;
   content: '';
   display: block;
   height: 100%;
@@ -214,6 +216,11 @@ https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,600,700,300i,600i,70
   z-index: -1;
 }
 ```
+
+> **CORRECCIÓN**: la columna izquierda ya no usa el patrón SVG geométrico sobre `--accent`; usa un
+> **gradiente radial** `circle` (naranja `#FF7842` → rojo `#FD1D1D`, stop `#FCB045` 54%) con **grano SVG**
+> (noise fractal, tile 120×120, alpha propio hasta 0.32) encima — sin `blend-mode` para no alterar el
+> gradiente. El patrón geométrico SVG queda solo para los headers de sección ≤1152px (sección 8).
 
 > **SVG del patrón**: es un `data:image/svg+xml` con un solo `<path>` geométrico (triangulitos
 > diagonales estilizados, `viewBox="0 0 920 1750"`). **Copiar textualmente el data-URI de
@@ -318,20 +325,30 @@ La línea vive en el eje `left: calc(50vw - 5rem)` (5rem antes del centro de la 
 }
 ```
 
-### 3.6 Sub-secciones anidadas (galería)
+### 3.6 Galería — filas como secciones (CORRECCIÓN de alucinación)
 
-Dentro de `.content` puede haber `<section>` anidadas (la galería usa 3). Cada una:
+> **Fix**: la versión anterior anidaba sub-secciones dentro de `.content` y las desplazaba con
+> `left: calc(-50vw - 5rem)` — eso colapsaba texto e imágenes a la izquierda (alucinación).
+> **Regla**: cada fila de la galería es una `<section class="gallery-row">` de primer nivel,
+> hermana de las demás secciones del wrapper. El grid 2 col de §3.3 ubica el texto (h3 +
+> descripción) + su línea de tiempo en la columna izquierda y las imágenes en la derecha.
 
-```css
-#wrapper > section > .content > section {
-  position: relative;
-  left: calc(-50vw - 5rem);       /* se desplaza para ocupar ancho completo */
-}
-#wrapper > section > .content > section:first-child { margin-top: 6rem; }
-#wrapper > section > .content > section > header { width: 32rem; }
+```html
+<section id="galeria"> <!-- h2 título + párrafo intro -->
+  <header><h2>…</h2></header>
+  <div class="content"><p>…</p></div>
+</section>
+<section class="gallery-row"> <!-- ×3: texto izq / imágenes der -->
+  <header><h3>…</h3><p>…</p></header>
+  <div class="content"><div class="gallery">…</div></div>
+</section>
 ```
 
-(≤1280px: `left: calc(-50vw - 4rem)`, header `30rem`.)
+CSS extra (además de las reglas genéricas de `#wrapper section`):
+
+```css
+#wrapper > section.gallery-row { margin-top: 4rem; }
+```
 
 ### 3.7 Copyright
 
@@ -402,7 +419,7 @@ para fidelidad de diseño hasta que haya contenido real):
 
   <!-- PANEL DE VIDEO 1 (nuevo) -->
 
-  <!-- 3. GALERÍA -->
+  <!-- 3. GALERÍA — filas como section.gallery-row de primer nivel (ver §3.6 fix) -->
   <section id="galeria">
     <header><h2>Ultrices erat magna sed condimentum</h2></header>
     <div class="content">
@@ -819,11 +836,10 @@ Panel 2 entre la sección `#galeria` y la sección CTA.
 
 **Embed oficial de TikTok** (API — <https://developers.tiktok.com/docs/en/embed-videos>):
 
-Los videos de TikTok son **verticales (9:16)** y se embeben con el player oficial, que incluye la
-atribución requerida (creador, descripción y sonido como links a tiktok.com) y el botón
-"Discover more on TikTok". **No** se usa un `<iframe>` directo: se usa un
-`<blockquote class="tiktok-embed">` que el script oficial `https://www.tiktok.com/embed.js`
-convierte en el player al ejecutarse.
+Los videos de TikTok son **verticales (9:16)**. Desde el fix se usa **iframe directo**
+`https://www.tiktok.com/embed/v2/{ID}` (sin oEmbed ni `embed.js`), cargado lazy al entrar al
+viewport. > **NOTA (fix)**: el embed v2 muestra solo el player + overlay de TikTok; si aparece
+caption/atribución adentro del iframe no se puede ocultar por CSS (cross-origin).
 
 Flujo en React (`TikTokEmbed.jsx` + `useTiktokEmbed.js`):
 
@@ -867,7 +883,7 @@ en `data/content.js` — el flujo del script `embed.js` es idéntico.
   border-radius: 0.325rem;
   box-shadow: 0 1.5rem 3.5rem rgba(0, 0, 0, 0.15);   /* sombra discreta */
   display: grid;
-  grid-template-columns: auto 1fr;           /* video vertical: la columna se ajusta al embed; texto, al resto */
+  grid-template-columns: 40% 1fr;           /* video ocupa 40% del panel; texto, al resto */
   align-items: center;
   gap: 3rem;
   padding: 3rem;
@@ -884,8 +900,8 @@ en `data/content.js` — el flujo del script `embed.js` es idéntico.
    El ancho se deriva de la altura disponible del panel para que la tarjeta nunca desborde:
    11.5rem ≈ padding del panel (6rem) + pie de atribución; 0.5625 = 9/16. */
 .tiktok-embed-wrap {
-  width: min(605px, calc((100vh - 11.5rem) * 0.5625));
-  min-width: 325px;                          /* mínimo oficial del embed */
+  width: min(100%, calc((100vh - 11.5rem) * 0.5625));
+  min-width: 325px;                          /* se reajusta a la columna del video (40%) */
 }
 .tiktok-embed-wrap blockquote.tiktok-embed {
   margin: 0;
@@ -1300,8 +1316,8 @@ Fuentes: Google Fonts (URL exacta en 2.2). Font Awesome 5 Free + Brands.
 - [ ] Fondo blanco global, texto negro, reset idéntico al original.
 - [ ] `html font-size` por breakpoint (18/13/14/12/11 pt).
 - [ ] Grid 50vw/50vw con `"header content" / "footer content"`.
-- [ ] Fondo `#df3c01` + patrón SVG (`rgba(194,53,1,0.25)`) en mitad izquierda, `z-index: -1`,
-      `attachment: fixed`, `position: -50% 10%`, `size: 75% auto`, `repeat-y`.
+- [ ] Fondo columna izquierda: gradiente radial `circle` `#FF7842 → #FD1D1D` (+ stop `#FCB045` 54%)
+      con grano SVG noise encima (tile 120×120, sin blend), `z-index: -1`, `attachment: fixed`, `width: 50vw`.
 - [ ] Línea de tiempo: eje `calc(50vw - 5rem)`, 2px `#c23501`, altura `calc(100% + 10rem)`,
       guiones 2.5rem, puntos 0.5rem, punto final a `-1.5rem`.
 - [ ] Intro: h1 5rem Source Sans Pro 700, subtítulo Raleway 0.8rem, arrow, imagen `pic01.jpg`
@@ -1311,6 +1327,8 @@ Fuentes: Google Fonts (URL exacta en 2.2). Font Awesome 5 Free + Brands.
       blanco, hover `#ef6a3c`, active `#c23501`.
 - [ ] Inputs: borde 2px, focus `#e2551f`, placeholder `rgba(0,0,0,0.25)`, labels Raleway uppercase.
 - [ ] Galerías: 4/3/3 imágenes, patrones landscape/portrait exactos, alturas 25vw/30vw min 18rem.
+- [ ] Galería: cada fila = `section.gallery-row` de primer nivel → texto + timeline a la
+      izquierda, imágenes a la derecha (fix §3.6).
 - [ ] Lightbox: overlay `rgba(255,255,255,0.875)`, z-index 11000, spinner, ESC, lock.
 - [ ] Feature-icons: hexágonos 3.25rem, 2 columnas 50%.
 - [ ] ≤1152px: columna única, patrón a headers de sección (fill 0.5), línea oculta, paddings 4rem.
