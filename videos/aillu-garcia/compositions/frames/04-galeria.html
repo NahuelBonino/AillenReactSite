@@ -1,0 +1,317 @@
+<template>
+  <style>
+    /* ── frame 04-galeria — 1080×1920 portrait, silent ───────────────────
+       A captured page scrolls inside the content band (top 83%); the camera
+       is the column translate. A tap pulses a photo, then the opened photo
+       scales in from that tap point over the dimmed page and holds.        */
+
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      background: transparent;
+      font-family: sans-serif;
+    }
+
+    /* ── track 0 — full-bleed ink ground (below the content band) ─────── */
+    [id="04-galeria-ground"] {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+      background: #000000;
+    }
+
+    /* ── track 1 — content band: clipped viewport of the captured page ── */
+    [id="04-galeria-band"] {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1593.6px;
+      overflow: hidden;
+    }
+
+    /* the scrolling column (the camera translates this, never the clip) */
+    [id="04-galeria-column"] {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 4846.2px;
+    }
+
+    /* captured plates, tiled as one continuous page; each block crops the
+       plate's baked-in floating chat pill off its foot */
+    [id="04-galeria-plate-04"],
+    [id="04-galeria-plate-05"],
+    [id="04-galeria-plate-06"] {
+      position: absolute;
+      left: 0;
+      width: 1080px;
+      overflow: hidden;
+    }
+    [id="04-galeria-plate-04"] {
+      top: 0;
+      height: 708.9px;
+    }
+    [id="04-galeria-plate-05"] {
+      top: 708.9px;
+      height: 1979.1px;
+    }
+    [id="04-galeria-plate-06"] {
+      top: 2688px;
+      height: 2158.2px;
+    }
+    [id="04-galeria-plate-04"] img {
+      width: 1080px;
+      height: 1057.8px;
+    }
+    [id="04-galeria-plate-05"] img {
+      width: 1080px;
+      height: 2093.5px;
+    }
+    [id="04-galeria-plate-06"] img {
+      width: 1080px;
+      height: 2293.5px;
+    }
+    [id="04-galeria-plate-04"] img,
+    [id="04-galeria-plate-05"] img,
+    [id="04-galeria-plate-06"] img {
+      display: block;
+      border: 0;
+    }
+
+    /* coral accent rule marking the content band's lower edge */
+    [id="04-galeria-sill"] {
+      position: absolute;
+      left: 0;
+      top: 1589.6px;
+      width: 1080px;
+      height: 4px;
+      background: #df3c01;
+    }
+
+    /* ── the tap: coral focus box on the touched photo + pulse rings ──── */
+    [id="04-galeria-focus"] {
+      position: absolute;
+      left: 50.3px;
+      top: 1551.3px;
+      width: 455.1px;
+      height: 519.7px;
+      border: 4px solid #df3c01;
+      opacity: 0;
+    }
+    [id="04-galeria-ring-a"],
+    [id="04-galeria-ring-b"] {
+      position: absolute;
+      left: 127.9px;
+      top: 1661.2px;
+      width: 300px;
+      height: 300px;
+      border: 4px solid #df3c01;
+      border-radius: 50%;
+      opacity: 0;
+    }
+    [id="04-galeria-dot"] {
+      position: absolute;
+      left: 253.9px;
+      top: 1787.2px;
+      width: 48px;
+      height: 48px;
+      background: #df3c01;
+      border-radius: 50%;
+      opacity: 0;
+    }
+
+    /* ── track 2 — scrim that dims the page behind the opened photo ───── */
+    [id="04-galeria-scrim"] {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1593.6px;
+      background: #000000;
+      opacity: 0;
+    }
+
+    /* ── track 3 — the opened photo, arriving from the tap point ──────── */
+    [id="04-galeria-lightbox"] {
+      position: absolute;
+      left: 171.8px;
+      top: 0;
+      width: 736.4px;
+      height: 1593.6px;
+      transform-origin: 106.1px 371.2px;
+      opacity: 0;
+    }
+    [id="04-galeria-lightbox"] img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+  </style>
+
+  <div id="root" data-composition-id="04-galeria" data-width="1080" data-height="1920">
+    <div
+      id="04-galeria-ground"
+      class="clip"
+      data-start="0"
+      data-duration="7.5"
+      data-track-index="0"
+    ></div>
+
+    <div
+      id="04-galeria-band"
+      class="clip"
+      data-start="0"
+      data-duration="7.5"
+      data-track-index="1"
+    >
+      <div id="04-galeria-column">
+        <div id="04-galeria-plate-04">
+          <img src="assets/04-mi-contenido.png" alt="" />
+        </div>
+        <div id="04-galeria-plate-05">
+          <img src="assets/05-mis-momentos.png" alt="" />
+        </div>
+        <div id="04-galeria-plate-06">
+          <img src="assets/06-trabajo-marcas.png" alt="" />
+        </div>
+
+        <div id="04-galeria-focus"></div>
+        <div id="04-galeria-ring-a"></div>
+        <div id="04-galeria-ring-b"></div>
+        <div id="04-galeria-dot"></div>
+      </div>
+
+      <div id="04-galeria-sill"></div>
+    </div>
+
+    <div
+      id="04-galeria-scrim"
+      class="clip"
+      data-start="0"
+      data-duration="7.5"
+      data-track-index="2"
+    ></div>
+
+    <div
+      id="04-galeria-lightbox"
+      class="clip"
+      data-start="0"
+      data-duration="7.5"
+      data-track-index="3"
+    >
+      <img src="assets/11-lightbox.png" alt="" />
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      const COL = '[id="04-galeria-column"]';
+      const SILL = '[id="04-galeria-sill"]';
+      const FOCUS = '[id="04-galeria-focus"]';
+      const RINGS = '[id="04-galeria-ring-a"], [id="04-galeria-ring-b"]';
+      const DOT = '[id="04-galeria-dot"]';
+      const SCRIM = '[id="04-galeria-scrim"]';
+      const BOX = '[id="04-galeria-lightbox"]';
+
+      const CLICK_AT = 4.35;
+
+      const tl = gsap.timeline({ paused: true });
+
+      /* Scene 1 (0.0–1.3s) — the section plate establishes: the page fades up
+         in place (no movement) while the coral rule draws under the band. */
+      tl.fromTo(COL, { opacity: 0.35 }, { opacity: 1, duration: 0.5, ease: "power1.out" }, 0);
+      tl.fromTo(
+        SILL,
+        { scaleX: 0 },
+        { scaleX: 1, duration: 0.6, ease: "power2.out", transformOrigin: "0% 50%" },
+        0.35,
+      );
+      /* the camera starts breathing: the first rows of the grid show at the foot */
+      tl.fromTo(COL, { y: 0 }, { y: -60, duration: 0.7, ease: "power1.inOut" }, 0.6);
+
+      /* Scene 2 (1.3–3.4s) — the scroll takes over: the section plate leaves the
+         top, the grid arrives and owns the lower 60% of the band (40/60 split). */
+      tl.fromTo(
+        COL,
+        { y: -60 },
+        { y: -907.7, duration: 2.1, ease: "power1.inOut", immediateRender: false },
+        1.3,
+      );
+
+      /* Scene 3 (3.4–5.3s) — the descent slows onto a photo, the tap lands, and
+         the scroll resumes toward the next section. */
+      tl.fromTo(
+        COL,
+        { y: -907.7 },
+        { y: -1011.2, duration: 0.95, ease: "power1.out", immediateRender: false },
+        3.4,
+      );
+      tl.fromTo(
+        FOCUS,
+        { opacity: 0, scale: 1.07 },
+        { opacity: 1, scale: 1, duration: 0.16, ease: "power2.out", immediateRender: false },
+        CLICK_AT,
+      );
+      tl.fromTo(
+        DOT,
+        { opacity: 1, scale: 0.35 },
+        { opacity: 0, scale: 1, duration: 0.42, ease: "power3.out", immediateRender: false },
+        CLICK_AT,
+      );
+      tl.fromTo(
+        RINGS,
+        { opacity: 0.95, scale: 0.55 },
+        {
+          opacity: 0,
+          scale: 1.5,
+          duration: 0.8,
+          ease: "power2.out",
+          stagger: 0.09,
+          immediateRender: false,
+        },
+        CLICK_AT + 0.02,
+      );
+      tl.fromTo(
+        COL,
+        { y: -1011.2 },
+        { y: -1440, duration: 0.85, ease: "power2.in", immediateRender: false },
+        4.45,
+      );
+
+      /* Scene 4 (5.3–7.5s) — the opened photo scales in from the tap point over
+         the dimmed page, settles, and holds (only a slow depth push to breathe). */
+      tl.fromTo(
+        SCRIM,
+        { opacity: 0 },
+        { opacity: 0.74, duration: 0.34, ease: "power2.out", immediateRender: false },
+        5.3,
+      );
+      tl.fromTo(
+        FOCUS,
+        { opacity: 1 },
+        { opacity: 0, duration: 0.36, ease: "power1.out", immediateRender: false },
+        5.3,
+      );
+      tl.fromTo(
+        BOX,
+        { opacity: 0, scale: 0.09 },
+        { opacity: 1, scale: 1, duration: 0.9, ease: "power2.out", immediateRender: false },
+        5.35,
+      );
+      tl.fromTo(COL, { y: -1440 }, { y: -1448, duration: 2.2, ease: "none", immediateRender: false }, 5.3);
+      tl.fromTo(SCRIM, { opacity: 0.74 }, { opacity: 0.8, duration: 1.8, ease: "none", immediateRender: false }, 5.7);
+      tl.fromTo(BOX, { scale: 1 }, { scale: 1.025, duration: 1.25, ease: "none", immediateRender: false }, 6.25);
+
+      window.__timelines["04-galeria"] = tl;
+      tl.seek(0);
+    })();
+  </script>
+</template>

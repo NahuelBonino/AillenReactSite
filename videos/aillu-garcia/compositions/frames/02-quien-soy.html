@@ -1,0 +1,99 @@
+<template>
+  <style>
+    /* 02-quien-soy — one continuous vertical scroll over the captured plate.
+       The plate is a 1170x3378 screenshot shown 1080 wide (3118.1538 tall): taller than
+       the canvas, so the motion is the camera, never a re-animation of the baked numbers. */
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+    }
+
+    /* full-bleed ground on a clip layer (never on #root) — the plate's own white */
+    .qs-ground {
+      position: absolute;
+      inset: 0;
+      background: #ffffff;
+    }
+
+    /* scroll viewport: full canvas, so the screenshot stays full-bleed */
+    .qs-view {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+    }
+
+    /* translated layer (the clip itself is never moved) — the continuous scroll */
+    .qs-scroll {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 3118.1538px;
+    }
+
+    /* push-in layer: origin sits on the baked metrics block, so the 1.0 -> 1.03 push-in
+       grows that block in place instead of drifting it off-centre */
+    .qs-zoom {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 3118.1538px;
+      transform-origin: 540px 2189px;
+    }
+
+    .qs-plate {
+      display: block;
+      width: 1080px;
+      height: 3118.1538px;
+    }
+  </style>
+
+  <div id="root" data-composition-id="02-quien-soy" data-width="1080" data-height="1920">
+    <div class="clip qs-ground" data-start="0" data-duration="5" data-track-index="0"></div>
+
+    <div class="clip qs-view" data-start="0" data-duration="5" data-track-index="1">
+      <div class="qs-scroll">
+        <div class="qs-zoom">
+          <img class="qs-plate" src="assets/02-quien-soy.png" alt="" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <script>
+    (function () {
+      var FLOOR = 1593; /* 0.83 x 1920 — the held read stays above this */
+      var PARK_Y = FLOOR / 2; /* centre of the reading area */
+      /* plate coords of the baked metrics block (rows 1593-3150 at 1170 wide -> centre 2189) */
+      var METRICS_HOLD = 2189;
+      var SCROLL_TO = -(METRICS_HOLD - PARK_Y); /* park the metrics block on the band's centre */
+
+      var scroll = document.querySelector(".qs-scroll");
+      var zoom = document.querySelector(".qs-zoom");
+
+      var tl = gsap.timeline({ paused: true });
+
+      /* Scene 1 (0.0-1.6s) — plate anchored at the top: rótulo + first text block, scale 1,
+         no movement yet. The breath; the root crossfade carries the entrance. */
+
+      /* Scene 2 (1.6-3.8s) — one continuous vertical scroll, braking into the stop. */
+      tl.fromTo(scroll, { y: 0 }, { y: SCROLL_TO, duration: 2.2, ease: "power3.out" }, 1.6);
+
+      /* Scene 3 (3.8-5.0s) — short push-in on the metrics block, then hold. */
+      tl.fromTo(zoom, { scale: 1 }, { scale: 1.03, duration: 0.65, ease: "power2.out" }, 3.8);
+
+      /* spacer: keeps the timeline spanning the full 5s clip window while the read holds */
+      tl.to({}, { duration: 0.55 }, 4.45);
+
+      window.__timelines["02-quien-soy"] = tl;
+    })();
+  </script>
+</template>

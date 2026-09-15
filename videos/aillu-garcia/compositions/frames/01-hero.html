@@ -1,0 +1,132 @@
+<template>
+  <!--
+    01-hero — "La home como está". Una sola placa real del sitio (1170×2532, dsf 3
+    sobre 390 CSS px) encuadrada de borde a borde, con la cámara acercándose apenas.
+
+    Encuadre: la placa se escala al ANCHO del canvas (1080 px ⇒ alto 2337 px) y se
+    ancla arriba (top:0). Sobran 417 px de alto, que quedan fuera por el overflow
+    del clip: se recorta el pie de la captura (botón de chat + franja blanca). No se
+    dibuja chrome de browser, ni scrollbar, ni cursor, ni texto nuevo: la placa ES
+    la imagen.
+
+    Mapa de escenas → timeline (4.5 s, la duración del packet):
+      Scene 1 (0.0–1.4s)  placa full-bleed a escala 1.0, entrada nítida (0.2 s de
+                          opacidad, sin fundido largo y sin movimiento vertical).
+      Scene 2 (1.4–3.6s)  push-in lento 1.0 → 1.06 con origen en el bloque de
+                          titular + subtítulo (50% / 27% del canvas), más 14 px de
+                          drift hacia arriba. Un solo elemento domina: la placa.
+      Scene 3 (3.6–4.5s)  el push frena en suave y la placa sostiene: quietud total,
+                          sin drift ni breathing (contrasta con el scroll que viene).
+
+    El clip timed (`.clip`) nunca se mueve: todo el movimiento vive en el wrapper
+    interno `.f01hero-drift`. Prefijo `f01hero-` para no colisionar con frames
+    hermanos (la `f` inicial hace válido el identificador CSS que arranca en dígito).
+  -->
+  <div
+    id="root"
+    data-composition-id="01-hero"
+    data-start="0"
+    data-duration="4.5"
+    data-width="1080"
+    data-height="1920"
+  >
+    <style>
+      /* El root NO pinta fondo: el ground full-bleed va en una capa clip. */
+      #root {
+        position: relative;
+        width: 1080px;
+        height: 1920px;
+        overflow: hidden;
+        container-type: size;
+      }
+
+      /* Ground full-bleed: el coral propio de la placa. Sostiene el arranque
+         (los 0.2 s de entrada) y cualquier borde sub-píxel del encuadre. */
+      .f01hero-ground {
+        position: absolute;
+        inset: 0;
+        background: #f2483d;
+      }
+
+      /* Clip de la placa: ventana 1080×1920, anclada arriba. */
+      .f01hero-plate {
+        position: absolute;
+        inset: 0;
+        overflow: hidden;
+      }
+
+      /* Wrapper interno: es lo único que GSAP transforma (nunca el clip timed). */
+      .f01hero-drift {
+        position: absolute;
+        inset: 0;
+      }
+
+      /* La captura: ancho = ancho del canvas, alto fluye (1080×2337 px). */
+      .f01hero-shot {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 1080px;
+        height: auto;
+        display: block;
+      }
+    </style>
+
+    <div
+      class="clip f01hero-ground"
+      data-start="0"
+      data-duration="4.5"
+      data-track-index="0"
+    ></div>
+
+    <div
+      class="clip f01hero-plate"
+      data-start="0"
+      data-duration="4.5"
+      data-track-index="1"
+    >
+      <div class="f01hero-drift">
+        <img class="f01hero-shot" src="assets/01-hero.png" alt="" />
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script>
+      (function () {
+        window.__timelines = window.__timelines || {};
+
+        var tl = gsap.timeline({ paused: true });
+        var drift = ".f01hero-drift";
+
+        // Origen del push-in: centro del bloque titular + subtítulo = 27% del alto
+        // del canvas (medido sobre la placa: y 300–810 px de 2532 ⇒ 277–748 de 1920).
+        gsap.set(drift, { transformOrigin: "50% 27%", scale: 1, y: 0 });
+
+        // Scene 1 — encuadre full-bleed a escala 1.0. Entrada nítida: 0.2 s, sin
+        // fundido largo, sin desplazamiento vertical.
+        tl.fromTo(
+          drift,
+          { opacity: 0 },
+          { opacity: 1, duration: 0.2, ease: "power2.out" },
+          0,
+        );
+
+        // Scene 2 — push-in lento, centrado en el bloque de titular + subtítulo,
+        // con un drift apenas perceptible hacia arriba dentro del sobrante de placa.
+        tl.fromTo(
+          drift,
+          { scale: 1, y: 0 },
+          { scale: 1.06, y: -14, duration: 2.2, ease: "sine.inOut" },
+          1.4,
+        );
+
+        // Scene 3 (3.6–4.5s) — sin tweens: el frenado en suave y la quietud son la
+        // ausencia de movimiento tras el push. Nunca un exit (el injector pone la
+        // transición del root).
+
+        window.__timelines["01-hero"] = tl;
+        tl.seek(0);
+      })();
+    </script>
+  </div>
+</template>

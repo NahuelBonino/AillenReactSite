@@ -1,0 +1,174 @@
+<template>
+  <!--
+    Frame 03-que-hago — "Qué hago" · canvas 1080×1920 · 5s · captions disabled.
+
+    One moving shot: the captured plate assets/03-que-hago.png (1170×3213 native, i.e.
+    2965.846 px tall at canvas width) travels up through a clipped viewport — the second
+    camera move in a row, cut to read as the same single take as frame 2: the plate starts
+    anchored at its top and the cruise speed is the same perceived speed, so the two shots
+    splice without a camera kick.
+
+    Scene 1 (0.0–1.4) plate anchored top, scale 1.0, still read hold.
+    Scene 2 (1.4–3.6) even-rhythm scroll through the six service icons → power3 brake.
+    Scene 3 (3.6–5.0) land on the last icon + text block → minimal push-in (~1.02) + hold.
+
+    No authored copy anywhere: every glyph on screen comes from the plate. No audio, no
+    browser chrome, no scrollbar, no cursor. Nothing exits — the root crossfade owns that.
+  -->
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* The frame root is styled by #root only — a class on the data-composition-id element
+       gets scoped to a descendant selector at render and the whole frame goes unstyled.
+       No background here either: the full-bleed ground rides on its own .clip layer below,
+       so it survives the scene-window clip gate. */
+    #root {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    /* Attribute selectors, not #id / .class: this frame_id starts with a digit
+       (`03-que-hago`) and is not a valid CSS identifier. */
+    [id="03-que-hago-ground"] {
+      position: absolute;
+      inset: 0;
+      /* the plate's own page ground — only ever visible if the strip were to stop short */
+      background: #ffffff;
+    }
+    [id="03-que-hago-stage"] {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+    /* camera push-in element — deliberately NOT the .clip element, so the runtime's own
+       clip gating always acts on a pristine node */
+    [id="03-que-hago-push"] {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      transform-origin: 50% 50%;
+    }
+    /* the scrolling strip: 1170 × 3213 native scaled to canvas width ⇒ 1080 × 2965.846 */
+    [id="03-que-hago-strip"] {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1080px;
+      height: 2965.846px;
+    }
+    [id="03-que-hago-plate"] {
+      display: block;
+      width: 1080px;
+      height: 2965.846px;
+      object-fit: cover;
+    }
+  </style>
+
+  <div
+    id="root"
+    data-composition-id="03-que-hago"
+    data-start="0"
+    data-duration="5"
+    data-width="1080"
+    data-height="1920"
+  >
+    <div
+      class="clip"
+      id="03-que-hago-ground"
+      data-start="0"
+      data-duration="5"
+      data-track-index="0"
+    ></div>
+
+    <!-- viewport: clips the tall plate to the 1080×1920 frame -->
+    <div
+      class="clip"
+      id="03-que-hago-stage"
+      data-start="0"
+      data-duration="5"
+      data-track-index="1"
+    >
+      <div id="03-que-hago-push">
+        <div id="03-que-hago-strip">
+          <img id="03-que-hago-plate" src="assets/03-que-hago.png" alt="" decoding="sync" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <script>
+    (function () {
+      var FRAME_ID = "03-que-hago";
+
+      // canvas 1080×1920 · plate 1170×3213 native → 1080 × 2965.846 displayed
+      var CANVAS_H = 1920;
+      var PLATE_H = 2965.846;
+      var SCROLL = PLATE_H - CANVAS_H; // 1045.846 — the whole plate traverses the frame
+
+      // camera cadence — one constant cruise speed so the move reads as a continuation of
+      // frame 2, whose scroll averages ~633 px/s over its 2.2s travel; matched here to ~603
+      var SCROLL_IN = 1.4; // Scene 1 (0.0–1.4): still hold, plate anchored at its top
+      var SCROLL_OUT = 3.6; // the even-rhythm scroll owns 1.4–3.6 and must park exactly here
+      var BRAKE_D = 0.7; // power3 settle — the camera decelerating onto the last block
+      var BRAKE_AT = SCROLL_OUT - BRAKE_D; // 2.9
+      // A power3.out segment enters at 3× its average speed (3·D/T), so holding that equal to
+      // the cruise speed makes the brake join the cruise without a kick — and it fixes the
+      // cruise speed for this distance/window (no free tunable). Solving it out:
+      var CRUISE_SPEED = SCROLL / (SCROLL_OUT - SCROLL_IN - (2 * BRAKE_D) / 3); // 603.4 px/s
+      var CRUISE_D = CRUISE_SPEED * (BRAKE_AT - SCROLL_IN); // 905.06
+      var PUSH_AT = 3.6; // Scene 3 (3.6–5.0): minimal push-in + reading hold
+      var PUSH_D = 0.75;
+
+      function build() {
+        if (!window.gsap) return;
+        window.__timelines = window.__timelines || {};
+        if (window.__timelines[FRAME_ID]) return;
+
+        var push = document.getElementById("03-que-hago-push");
+        var strip = document.getElementById("03-que-hago-strip");
+        if (!push || !strip) return;
+
+        var tl = gsap.timeline({ paused: true });
+
+        // full-span anchor: the frame's timeline covers the whole 5s render length
+        tl.to({}, { duration: 5 }, 0);
+
+        // Scene 1 (0.0–1.4) — deliberate read hold: the plate sits anchored at its top at
+        // scale 1.0 with no motion. The shot resumes frame 2's camera pose, so any re-entry
+        // tween here would break the single-take illusion; the hold is the beat.
+        //
+        // Scene 2 (1.4–3.6) — even-rhythm scroll down through the six service icons: a linear
+        // cruise (constant cadence IS the reveal cue) whose speed is matched by the power3
+        // brake above, so the camera comes to rest precisely on the 3.6s cut.
+        tl.fromTo(
+          strip,
+          { y: 0 },
+          { y: -CRUISE_D, duration: BRAKE_AT - SCROLL_IN, ease: "none" },
+          SCROLL_IN,
+        );
+        tl.to(strip, { y: -SCROLL, duration: BRAKE_D, ease: "power3.out" }, BRAKE_AT);
+
+        // Scene 3 (3.6–5.0) — braked on the last icon + text block: a minimal push-in
+        // (~1.02, camera-idiom scale on the frame center) then the reading hold.
+        tl.fromTo(
+          push,
+          { scale: 1 },
+          { scale: 1.02, duration: PUSH_D, ease: "power2.out" },
+          PUSH_AT,
+        );
+
+        window.__timelines[FRAME_ID] = tl;
+        tl.seek(0);
+      }
+
+      if (window.gsap) build();
+      else if (document.readyState !== "complete") window.addEventListener("load", build, { once: true });
+    })();
+  </script>
+</template>

@@ -1,0 +1,69 @@
+[a] Quién Soy
+[a] Qué hago
+[a] Contacto
+[h1] Aillu Garcia
+[p] Compartiendo momentos y conectando con lo auténtico
+[h2] Quién soy
+[strong] ¡Hola! Soy Aillu
+[p] , creadora de contenido uruguaya y encargada de Ushas Uy en Montevideo.
+[p] Entre maquillaje, decoración y el día a día, comparto momentos reales y auténticos: ayudo a marcas y emprendimientos a conectar mejor con su gente y, a la vez, muestro lo que hay detrás de la pantalla, sin guion.
+[p] Si te gusta el contenido cercano, con estilo y buena onda, este es tu lugar.
+[p] 11.800
+[p] Seguidores en Instagram
+[span] Seguidores en Instagram
+[span] 11.800
+[p] 7.666
+[p] Seguidores en TikTok
+[span] Seguidores en TikTok
+[span] 7.666
+[p] 846,6
+[p] Me gusta en TikTok
+[span] Me gusta en TikTok
+[span] 846,6
+[h2] Qué hago
+[strong] Ayudo a empresas y emprendimientos
+[p] a tener más impacto en las personas con contenido auténtico y estrategias que conectan. Cada campaña se piensa a medida: qué dice tu marca, quién la mira y cómo llegar más lejos con ideas que se sienten reales.
+[li] Contenido de alta calidad
+[li] Ideas creativas que conectan
+[li] Mayor alcance y crecimiento
+[li] Gestión integral de redes y campañas
+[li] Comunidad local uruguaya
+[li] Colaboraciones a medida
+[p] Marcas con las que colaboro y métricas de impacto de la comunidad: más alcance, más interacción y una audiencia que confía en lo que ve.
+[h3] Trabajo & marcas
+[strong] Detrás de cada video de trabajo
+[p] hay marcas reales que acompañan mi contenido: promociones, productos virales y campañas que conectan de verdad con la gente.
+[p] En Ushas Uy lidero el punto de venta, coordino al equipo y garantizo los objetivos comerciales: lip combos, productos por menos de $100 y eventos como el Mega Outlet.
+[p] Colaboro de forma recurrente con CIF Uruguay, El Maestro, tiendas de iluminación y Mulliditas, integrando cada marca en mi día a día con contenido auténtico y de alto impacto.
+[p] El resultado: campañas que entretienen, generan confianza y llevan clientes al punto de venta, con métricas de comunidad que lo demuestran.
+[h2] Mi contenido
+[strong] Un poco de todo
+[p] lo que hago, en un solo lugar: momentos del día a día, trabajo con marcas, decoración y aire libre. Hacé click en cada foto para verla en grande.
+[h3] Mis momentos
+[p] La Aillu de todos los días, sin filtros: risas, maquillaje, crocs y esas situaciones que parecen sacadas de una historia real.
+[h3] Trabajo & marcas
+[p] Contenido para marcas: Ushas Uy, CIF Uruguay, El Maestro, tiendas de iluminación y Mulliditas. Promociones, productos virales y eventos de temporada.
+[h3] Decoración
+[p] Espacios, detalles y esas cosas que hacen lindo el hogar: escritorios, luces y ramos que cambian todo.
+[h3] Aire libre
+[p] Salidas, ferias y momentos afuera: de la Feria Tristán Narvaja a las bajadas con la mejor compañía.
+[h3] La vida real
+[strong] Lo que ves en pantalla es lo que hay detrás:
+[p] momentos, decoración, compras y aire libre. La honestidad es la base de la confianza.
+[p] Comparto la Aillen real: del hogar a la feria, de la decoración al día a día, sin guion y sin filtros.
+[p] Creo contenido que entretiene y conecta con lo auténtico: humor, compras, estilo y una comunidad uruguaya que se siente cerca.
+[p] La idea es simple: si algo te hace reír o te sirve para el día a día, ya ganamos.
+[h2] ¿Tenés una marca o emprendimiento?
+[strong] Trabajemos juntos
+[p] para que tu marca conecte con más gente de forma auténtica.
+[a] Trabajemos juntos
+[a] Sumate a la comunidad
+[h2] Contacto
+[strong] ¿Querés colaborar
+[p] con tu marca o simplemente seguir mi contenido? Sumate a la comunidad: en Instagram y TikTok vas a encontrar el día a día, tips y mucho humor. Para propuestas de marcas, escribime por Instagram.
+[a] Mi trabajo · Ushas Uy
+[div] 2026
+[div] Aillu Garcia · Todos los derechos reservados
+[span] Chateá con mi asistente
+[span] Asistente Pedrito
+[p] ¡Hola soy Pedrito el asistente de Aillu! ¿En qué podemos ayudarte?

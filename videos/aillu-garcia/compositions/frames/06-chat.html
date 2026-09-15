@@ -1,0 +1,136 @@
+<template>
+  <!-- 06-chat — Frame 6 "Chat + cierre" · 1080×1920 · 3.5s · silent film (no audio, no captions) · FINAL frame (holds, no exit)
+       Scene 1 (0.0–1.2s)  contact page plate at rest, scale 1.0 — the contact data reads
+       Scene 2 (1.2–2.4s)  the assistant panel rises from below the frame edge (power3) while the page dims ~15%
+       Scene 3 (2.4–3.5s)  short settle, then the final hold — page and panel at rest
+       Both assets are real captures, used as 1:1 crops. No new copy, no invented logo, no brand mark. -->
+  <style>
+    /* Root styled via #root (never a class on the data-composition-id element). */
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      container-type: size;
+    }
+
+    /* Frame-local class prefix "f06-chat-": letter-first so the selectors stay valid and
+       sibling frames mounted in the same document cannot collide. */
+
+    /* Ground — full-bleed on a clip layer, never painted on #root. */
+    .f06-chat-ground {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: #000000;
+    }
+
+    /* Contact plate — real capture at 1:1 (1170px wide), anchored to the top edge and bleeding
+       45px past each side. Its bottom edge lands exactly on the 83% keep-out line (1590px). */
+    .f06-chat-plate {
+      position: absolute;
+      left: -45px;
+      top: 0;
+      width: 1170px;
+      height: 1590px;
+      overflow: hidden;
+    }
+    .f06-chat-plate img {
+      display: block;
+      width: 1170px;
+      height: 1590px;
+    }
+
+    /* Page dimmer — ~15% ink over the plate; the panel rides above it, so the widget stays clean. */
+    .f06-chat-veil {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: #000000;
+      opacity: 0;
+    }
+
+    /* Assistant panel — 1:1 crop of 12-chat.png (x49 y694 w1072 h1532), scaled to 840px wide.
+       The crop is masked to the widget itself (rounded corners, overflow hidden) so the dimmed
+       page baked into that capture never shows: no duplicated page behind the panel.
+       Resting box: left 120, top 389, 840×1200.4 → bottom 1589.4, above the 83% line. */
+    .f06-chat-panel {
+      position: absolute;
+      left: 120px;
+      top: 389px;
+      width: 840px;
+      height: 1200.4px;
+      overflow: hidden;
+      border-radius: 12px;
+      transform-origin: 50% 100%;
+    }
+    /* Inner image at pixel scale 840/1072 = 0.783582. */
+    .f06-chat-panel img {
+      position: absolute;
+      left: -38.4px;
+      top: -543.8px;
+      width: 916.8px;
+      height: auto;
+    }
+  </style>
+
+  <div
+    id="root"
+    data-composition-id="06-chat"
+    data-start="0"
+    data-duration="3.5"
+    data-width="1080"
+    data-height="1920"
+  >
+    <div class="f06-chat-ground clip" data-start="0" data-duration="3.5" data-track-index="0"></div>
+
+    <div class="f06-chat-plate clip" data-start="0" data-duration="3.5" data-track-index="1">
+      <img src="assets/10-contacto.png" alt="" />
+    </div>
+
+    <div class="f06-chat-veil clip" data-start="0" data-duration="3.5" data-track-index="2"></div>
+
+    <div class="f06-chat-panel clip" data-start="0" data-duration="3.5" data-track-index="3">
+      <img src="assets/12-chat.png" alt="" />
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var gsap = window.gsap;
+      var panel = ".f06-chat-panel";
+      var veil = ".f06-chat-veil";
+
+      var tl = gsap.timeline({ paused: true });
+
+      // Panel start state: parked below the frame edge (top edge at 1935px, clear of the 1920px
+      // canvas even at the 1.045 start scale), so every seek before 1.2s renders the widget fully
+      // out of frame — it rises into shot, it never pops in.
+      tl.set(panel, { y: 1600, scale: 1.045 }, 0);
+      tl.set(veil, { opacity: 0 }, 0);
+
+      // Scene 2 — the assistant panel rises from below the bottom edge (power3, decelerating in).
+      tl.fromTo(
+        panel,
+        { y: 1600, scale: 1.045 },
+        { y: 0, scale: 1, duration: 1.15, ease: "power3.out" },
+        1.2,
+      );
+
+      // Scene 2 — the page behind dims ~15% as focus moves onto the panel.
+      tl.fromTo(veil, { opacity: 0 }, { opacity: 0.16, duration: 2, ease: "power1.out" }, 1.2);
+
+      // Scene 3 — a short settle into place, then the final hold: nothing moves after 2.75s.
+      tl.to(panel, { y: -6, duration: 0.35, ease: "power2.out" }, 2.4);
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["06-chat"] = tl;
+      tl.seek(0);
+    })();
+  </script>
+</template>

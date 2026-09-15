@@ -1,0 +1,286 @@
+<template>
+  <!--
+    Frame 05-cta — "La propuesta" · canvas 1080×1920 · 4.5s · captions disabled · silent video.
+
+    Cut in from the lightbox: the register changes, photo → proposal. Two captured plates of
+    the same section:
+      assets/09-cta.png       1170×1563 — button at rest (its button is exactly #DF3C01)
+      assets/13-cta-hover.png 1170×2532 — same section, button in hover state
+
+    THE PLATES ARE CROPPED AT DIFFERENT HEIGHTS: 13-cta-hover is the same page, same zoom,
+    scrolled 273 px further up. Measured: the coral proposal banner starts at plate row 0 in
+    09 and row 273 in 13, and the primary button lands at 09 rows 903–1082 / 13 rows
+    1176–1355 — a constant +273 on every shared edge. So the two plates are aligned by that
+    single offset, which is what keeps the swap reading as the button reacting instead of the
+    page jumping.
+
+    The two captures also disagree in tone on every saturated area (09's banner is a lighter
+    coral than 13's; 09's button is the brand #DF3C01, 13's is a lighter #EF6A3C). A plain
+    full-frame crossfade would therefore tint the whole banner mid-swap and bury the one
+    change the shot is about, so the swap is a MASKED crossfade: 09 stays the ground and only
+    the button rect swaps to 13's pixels, at identical framing and with the camera at rest.
+
+    Plate → canvas scale 1080/1170 = 0.9230769. The crop keeps plate rows 0–1470 (canvas
+    0–1356.92) — the proposal banner, the body copy, both CTAs — and stops just above the
+    sticky chat pill (plate row 1474), which only exists in one of the captures.
+
+    Scene 1 (0.0–1.6) still: the headline reads, scale 1.0, no camera motion (the deliberate
+    read hold; the root cut owns the entrance).
+    Scene 2 (1.6–2.6) short push-in onto the button (scale 1 → 1.12 about the button centre,
+    no translation) → in the window's last third the accent #DF3C01 click pulse ripples out
+    from the button.
+    Scene 3 (2.6–4.5) hover swap inside the same framing (short crossfade, camera still) then
+    the hold; poster at 4s.
+
+    No authored copy anywhere — every glyph on screen comes from a plate. No audio, no cursor,
+    no browser chrome, no scrollbar, no shadow. Nothing exits: the root transition owns that.
+  -->
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Root styled via #root only — a class here gets scoped to a descendant selector at
+       render and the whole frame goes unstyled. No background here either: the full-bleed
+       ground rides on its own .clip layer, so it survives the scene-window clip gate.
+       Attribute selectors below, not #id/.class: this frame_id starts with a digit and is
+       not a valid CSS identifier. */
+    #root {
+      position: absolute;
+      inset: 0;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+    }
+
+    /* the page's own white ground — also what shows below the crop */
+    [id="05-cta-ground"] {
+      position: absolute;
+      inset: 0;
+      background: #ffffff;
+    }
+
+    /* camera viewport: full canvas, so the plate stays full-bleed */
+    [id="05-cta-view"] {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+    }
+
+    /* camera layer. Origin sits on the primary button's centre, so the push-in grows the
+       button in place instead of drifting it; the button centre stays at 540, 916.6154. */
+    [id="05-cta-cam"] {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1920px;
+      transform-origin: 540px 916.6154px;
+    }
+
+    /* the crop: plate rows 0–1470 shown at canvas width (1356.9231 = 1470 × 0.9230769) */
+    [id="05-cta-strip"] {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 1080px;
+      height: 1356.9231px;
+      overflow: hidden;
+    }
+
+    /* plate at rest: 1170×1563 → 1080 × 1442.7692, anchored top-left */
+    [id="05-cta-plate"] {
+      display: block;
+      width: 1080px;
+      height: 1442.7692px;
+    }
+
+    /* masked swap window = the button rect grown ~8px (covers only the button and the white
+       around it, so the tonal split between the captures can never reach the banner).
+       Canvas rect: x 136.6154–942.4616, y 826.1538–1006.1538 */
+    [id="05-cta-patch"] {
+      position: absolute;
+      left: 136.6154px;
+      top: 826.1538px;
+      width: 805.8462px;
+      height: 180px;
+      overflow: hidden;
+      opacity: 0;
+    }
+
+    /* hover plate inside the patch: offset by (-148 × s) and (-(895 + 273) × s), which maps
+       its button rect (rows 1176–1355) onto the rest plate's button rect (rows 903–1082) */
+    [id="05-cta-patch-plate"] {
+      position: absolute;
+      left: -136.6154px;
+      top: -1078.1538px;
+      display: block;
+      width: 1080px;
+      height: 2337.2308px;
+    }
+
+    /* click pulse: exactly the button rect (16 px radius 13 × s) — grows by an even outset
+       and fades, so the ripple stays concentric with the button instead of stretching */
+    [id="05-cta-pulse"] {
+      position: absolute;
+      left: 144px;
+      top: 833.5385px;
+      width: 792px;
+      height: 166.1538px;
+      box-sizing: border-box;
+      border: 10px solid #df3c01;
+      border-radius: 12px;
+      opacity: 0;
+    }
+  </style>
+
+  <div
+    id="root"
+    data-composition-id="05-cta"
+    data-start="0"
+    data-duration="4.5"
+    data-width="1080"
+    data-height="1920"
+  >
+    <!-- full-bleed ground on a clip layer (never on #root) -->
+    <div
+      class="clip"
+      id="05-cta-ground"
+      data-start="0"
+      data-duration="4.5"
+      data-track-index="0"
+    ></div>
+
+    <div
+      class="clip"
+      id="05-cta-view"
+      data-start="0"
+      data-duration="4.5"
+      data-track-index="1"
+    >
+      <div id="05-cta-cam">
+        <div id="05-cta-strip">
+          <img id="05-cta-plate" src="assets/09-cta.png" alt="" decoding="sync" />
+        </div>
+        <div id="05-cta-patch">
+          <img
+            id="05-cta-patch-plate"
+            src="assets/13-cta-hover.png"
+            alt=""
+            decoding="sync"
+          />
+        </div>
+        <div id="05-cta-pulse"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+  <script>
+    (function () {
+      var FRAME_ID = "05-cta";
+      var DURATION = 4.5;
+
+      /* geometry, in canvas px (plate × 1080/1170) — mirrors the CSS above */
+      var BTN = { x: 144, y: 833.5385, w: 792, h: 166.1538, r: 12 };
+
+      /* camera */
+      var PUSH_AT = 1.6; /* Scene 1 → Scene 2 seam */
+      var PUSH_D = 0.95;
+      var PUSH_SCALE = 1.12; /* the headline's top line stays on screen at this scale */
+
+      /* click pulse — the last third of the Scene 2 window (1.6–2.6) */
+      var PULSE_AT = 2.28;
+      var PULSE_POP_D = 0.12;
+      var PULSE_D = 0.5;
+      var PULSE_OUT = 26; /* max outset: ripple stays inside the canvas at the pushed scale */
+
+      /* hover swap — Scene 3 opens at 2.6, camera already at rest */
+      var SWAP_AT = 2.6;
+      var SWAP_D = 0.22;
+
+      function pulseBox(outset) {
+        return {
+          left: BTN.x - outset,
+          top: BTN.y - outset,
+          width: BTN.w + outset * 2,
+          height: BTN.h + outset * 2,
+          borderRadius: BTN.r + outset + "px",
+        };
+      }
+
+      function build() {
+        if (!window.gsap) return;
+        window.__timelines = window.__timelines || {};
+        if (window.__timelines[FRAME_ID]) return;
+
+        var cam = document.getElementById("05-cta-cam");
+        var patch = document.getElementById("05-cta-patch");
+        var pulse = document.getElementById("05-cta-pulse");
+        if (!cam || !patch || !pulse) return;
+
+        var tl = gsap.timeline({ paused: true });
+
+        /* full-span anchor: the timeline covers the whole 4.5s render length */
+        tl.to({}, { duration: DURATION }, 0);
+
+        /* Scene 1 (0.0–1.6) — deliberate read hold. The plate is fully present from t=0 at
+           scale 1.0 and the camera does not move: this frame's beat is the arrival of the
+           push-in, so any settle here would spend it early. */
+
+        /* Scene 2 (1.6–2.6) — short push-in onto the button, scaling about its own centre so
+           the button grows in place and the proposal copy pushes out of frame around it. */
+        tl.fromTo(
+          cam,
+          { scale: 1 },
+          { scale: PUSH_SCALE, duration: PUSH_D, ease: "power2.inOut" },
+          PUSH_AT,
+        );
+
+        /* click pulse, last third of the window: the accent rim pops out of the button's
+           edge, then ripples out and fades. Animated as a true outset (left/top/width/height
+           all move the same distance) so it reads as a ring, not as a stretched box. */
+        tl.fromTo(
+          pulse,
+          Object.assign({ opacity: 0 }, pulseBox(0)),
+          Object.assign(
+            { opacity: 0.95, duration: PULSE_POP_D, ease: "power1.in" },
+            pulseBox(6),
+          ),
+          PULSE_AT,
+        );
+        tl.fromTo(
+          pulse,
+          Object.assign({ opacity: 0.95 }, pulseBox(6)),
+          Object.assign(
+            { opacity: 0, duration: PULSE_D, ease: "power2.out" },
+            pulseBox(PULSE_OUT),
+          ),
+          PULSE_AT + PULSE_POP_D,
+        );
+
+        /* Scene 3 (2.6–4.5) — hover swap in the identical framing, camera at rest: only the
+           button's pixels crossfade (rest #DF3C01 → hover #EF6A3C) and then the frame holds
+           on the CTA for the 4s poster. The pulse is still fading out over the first half of
+           the crossfade, which is what links press → state change. */
+        tl.fromTo(
+          patch,
+          { opacity: 0 },
+          { opacity: 1, duration: SWAP_D, ease: "power1.inOut" },
+          SWAP_AT,
+        );
+
+        window.__timelines[FRAME_ID] = tl;
+        tl.seek(0);
+      }
+
+      if (window.gsap) build();
+      else if (document.readyState !== "complete") window.addEventListener("load", build, { once: true });
+    })();
+  </script>
+</template>

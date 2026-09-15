@@ -1,0 +1,249 @@
+{
+  "typography": [
+    {
+      "role": "display",
+      "fontFamily": "Source Sans Pro",
+      "fontSize": "96px",
+      "fontWeight": "700",
+      "lineHeight": "105.6px",
+      "letterSpacing": "-4.8px",
+      "color": "#000000",
+      "sampleText": "Aillu Garcia"
+    },
+    {
+      "role": "label",
+      "fontFamily": "Source Sans Pro",
+      "fontSize": "32px",
+      "fontWeight": "300",
+      "lineHeight": "64px",
+      "letterSpacing": "0.6px",
+      "color": "#000000",
+      "sampleText": ""
+    },
+    {
+      "role": "heading",
+      "fontFamily": "Raleway",
+      "fontSize": "24px",
+      "fontWeight": "800",
+      "lineHeight": "42px",
+      "letterSpacing": "4.2px",
+      "color": "#000000",
+      "sampleText": "Quién soy"
+    },
+    {
+      "role": "body",
+      "fontFamily": "Raleway",
+      "fontSize": "20px",
+      "fontWeight": "800",
+      "lineHeight": "40px",
+      "letterSpacing": "1px",
+      "color": "#DF3C01",
+      "sampleText": "11.800+"
+    },
+    {
+      "role": "heading-3",
+      "fontFamily": "Raleway",
+      "fontSize": "18px",
+      "fontWeight": "600",
+      "lineHeight": "31.5px",
+      "letterSpacing": "3.15px",
+      "color": "#000000",
+      "sampleText": "Trabajo & marcas"
+    }
+  ],
+  "spacing": {
+    "observed": [
+      1,
+      4,
+      8,
+      12,
+      16,
+      20,
+      24,
+      25,
+      28,
+      32,
+      40,
+      48,
+      52,
+      72,
+      80
+    ],
+    "baseUnit": 8
+  },
+  "radius": [
+    "5.2px",
+    "32px",
+    "52px"
+  ],
+  "shadows": [
+    {
+      "value": "rgba(0, 0, 0, 0.15) 0px 24px 56px 0px",
+      "count": 2
+    },
+    {
+      "value": "rgba(0, 0, 0, 0.12) 0px 8px 32px 0px",
+      "count": 1
+    },
+    {
+      "value": "rgba(0, 0, 0, 0.3) 0px 31px 50px 10px inset",
+      "count": 1
+    },
+    {
+      "value": "rgba(144, 144, 144, 0.25) 0px 0px 0px 2px inset",
+      "count": 1
+    }
+  ],
+  "buttons": [
+    {
+      "label": "Trabajemos juntos",
+      "background": "#DF3C01",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#FFFFFF",
+      "padding": "0px 52px",
+      "borderRadius": "5.2px",
+      "border": "0px none rgb(255, 255, 255)",
+      "boxShadow": "none",
+      "fontSize": "14px",
+      "fontWeight": "600",
+      "height": "52.1875px"
+    },
+    {
+      "label": "Sumate a la comunidad",
+      "background": "transparent",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#000000",
+      "padding": "0px 52px",
+      "borderRadius": "5.2px",
+      "border": "0px none rgb(0, 0, 0)",
+      "boxShadow": "rgba(144, 144, 144, 0.25) 0px 0px 0px 2px inset",
+      "fontSize": "14px",
+      "fontWeight": "600",
+      "height": "52.1875px"
+    },
+    {
+      "label": "Chateá con mi asistente",
+      "background": "#DF3C01",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#FFFFFF",
+      "padding": "0px 52px",
+      "borderRadius": "48px",
+      "border": "0px none rgb(255, 255, 255)",
+      "boxShadow": "rgba(0, 0, 0, 0.3) 0px 31px 50px 10px inset",
+      "fontSize": "14px",
+      "fontWeight": "600",
+      "height": "60px"
+    }
+  ],
+  "cards": [
+    {
+      "label": "card",
+      "background": "transparent",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#000000",
+      "padding": "0px",
+      "borderRadius": "0px",
+      "border": "0px none rgb(0, 0, 0)",
+      "boxShadow": "none",
+      "fontSize": "16px",
+      "fontWeight": "300",
+      "height": "200px"
+    },
+    {
+      "label": "card",
+      "background": "#FFFFFF",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#000000",
+      "padding": "28px 16px",
+      "borderRadius": "5.2px",
+      "border": "0px none rgb(0, 0, 0)",
+      "boxShadow": "none",
+      "fontSize": "16px",
+      "fontWeight": "300",
+      "height": "200px"
+    },
+    {
+      "label": "card",
+      "background": "#000000",
+      "backgroundImage": "",
+      "backdropFilter": "",
+      "color": "#000000",
+      "padding": "0px",
+      "borderRadius": "5.2px",
+      "border": "0px none rgb(0, 0, 0)",
+      "boxShadow": "none",
+      "fontSize": "16px",
+      "fontWeight": "300",
+      "height": "841.938px"
+    }
+  ],
+  "nav": null,
+  "chips": [
+    {
+      "label": "Instagram",
+      "background": "transparent",
+      "color": "#000000",
+      "padding": "0px",
+      "borderRadius": "52px",
+      "border": "2px solid rgba(144, 144, 144, 0.25)",
+      "boxShadow": "none",
+      "fontSize": "25px",
+      "fontWeight": "300",
+      "height": "52px"
+    }
+  ],
+  "statCells": [
+    {
+      "background": "#FFFFFF",
+      "borderRadius": "5.2px",
+      "border": "0px none rgb(0, 0, 0)",
+      "boxShadow": "none",
+      "numberFontSize": "32px",
+      "numberFontWeight": "300",
+      "numberColor": "#000000"
+    },
+    {
+      "background": "transparent",
+      "borderRadius": "0px",
+      "border": "0px none rgb(0, 0, 0)",
+      "boxShadow": "none",
+      "numberFontSize": "32px",
+      "numberFontWeight": "300",
+      "numberColor": "#000000"
+    }
+  ],
+  "tabs": [],
+  "backgrounds": [
+    {
+      "value": "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3CfeComponentTransfer%3E%3CfeFuncA type='table' tableValues='0 0.32'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E\"), radial-gradient(circle, rgb(255, 120, 66) 0%, rgb(253, 29, 29) 100%, rgb(252, 176, 69) 54%)",
+      "area": 18147840
+    },
+    {
+      "value": "radial-gradient(9px 18px at 2% 68%, rgba(50, 200, 80, 0.5), rgba(0, 0, 0, 0)), radial-gradient(4px 8px at 2% 68%, rgba(30, 185, 170, 0.45), rgba(0, 0, 0, 0)), radial-gradient(59px 9px at 72% -3%, rgba(255, 120, 40, 0.35), rgba(0, 0, 0, 0)), radial-gradient(42px 7px at 74% 100%, rgba(100, 70, 255, 0.35), rgba(0, 0, 0, 0)), radial-gradient(10px 17px at 100% 27%, rgba(240, 50, 180, 0.3), rgba(0, 0, 0, 0)), radial-gradient(10px 18px at 100% 27%, rgba(180, 40, 240, 0.4), rgba(0, 0, 0, 0)), radial-gradient(5px 10px at 100% 27%, rgba(40, 140, 255, 0.3), rgba(0, 0, 0, 0)), radial-gradient(11px 12px at 100% 27%, rgba(255, 50, 100, 0.3), rgba(0, 0, 0, 0))",
+      "area": 23269
+    },
+    {
+      "value": "conic-gradient(from 275.865deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 54%, rgba(255, 255, 255, 0.1) 57%, rgba(255, 255, 255, 0.3) 60%, rgba(255, 255, 255, 0.6) 63%, rgba(255, 255, 255, 0.75) 66%, rgba(255, 255, 255, 0.6) 69%, rgba(255, 255, 255, 0.3) 72%, rgba(255, 255, 255, 0.1) 75%, rgba(0, 0, 0, 0) 78%, rgba(0, 0, 0, 0) 100%), radial-gradient(9px 18px at 2% 68%, rgb(50, 200, 80), rgba(0, 0, 0, 0)), radial-gradient(4px 8px at 2% 68%, rgb(30, 185, 170), rgba(0, 0, 0, 0)), radial-gradient(59px 9px at 72% -3%, rgb(255, 120, 40), rgba(0, 0, 0, 0)), radial-gradient(42px 7px at 74% 100%, rgb(100, 70, 255), rgba(0, 0, 0, 0)), radial-gradient(10px 17px at 100% 27%, rgb(240, 50, 180), rgba(0, 0, 0, 0)), radial-gradient(10px 18px at 100% 27%, rgb(180, 40, 240), rgba(0, 0, 0, 0)), radial-gradient(5px 10px at 100% 27%, rgb(40, 140, 255), rgba(0, 0, 0, 0)), radial-gradient(11px 12px at 100% 27%, rgb(255, 50, 100), rgba(0, 0, 0, 0))",
+      "area": 23269
+    },
+    {
+      "value": "conic-gradient(from 275.865deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 58%, rgba(255, 255, 255, 0.03) 62%, rgba(255, 255, 255, 0.08) 65%, rgba(255, 255, 255, 0.2) 67%, rgba(255, 255, 255, 0.45) 69%, rgba(255, 255, 255, 0.85) 70%, rgba(255, 255, 255, 0.85) 70.5%, rgba(255, 255, 255, 0.45) 71.5%, rgba(255, 255, 255, 0.2) 73%, rgba(255, 255, 255, 0.08) 75%, rgba(255, 255, 255, 0.03) 78%, rgba(0, 0, 0, 0) 82%)",
+      "area": 23269
+    }
+  ],
+  "glass": [
+    {
+      "backdropFilter": "blur(12px)",
+      "background": "rgba(255, 255, 255, 0.9)",
+      "border": "1px solid rgba(144, 144, 144, 0.15)",
+      "borderRadius": "48px",
+      "boxShadow": "rgba(0, 0, 0, 0.12) 0px 8px 32px 0px",
+      "area": 35607
+    }
+  ]
+}

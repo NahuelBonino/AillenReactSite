@@ -1,0 +1,141 @@
+{
+  "url": "http://127.0.0.1:5174/",
+  "viewport": {
+    "cssW": 390,
+    "cssH": 844,
+    "dsf": 3
+  },
+  "shots": [
+    "hero",
+    "full-page",
+    "section-00-intro",
+    "section-01-qui-n-soy",
+    "section-02-qu-hago",
+    "section-03-mi-contenido",
+    "section-04-mis-momentos",
+    "section-05-trabajo-marcas",
+    "section-06-decoraci-n",
+    "section-07-aire-libre",
+    "section-08-ten-s-una-marca-o-emprendimi",
+    "section-09-contacto",
+    "galeria-pre-click",
+    "state-lightbox",
+    "state-cta-hover",
+    "state-chat"
+  ],
+  "sections": [
+    {
+      "tag": "section",
+      "id": "intro",
+      "classes": "intro",
+      "heading": null,
+      "top": 0,
+      "height": 781,
+      "width": 390,
+      "slug": "00-intro",
+      "file": "section-00-intro.png"
+    },
+    {
+      "tag": "section",
+      "id": "first",
+      "classes": "quien-soy",
+      "heading": "Quién soy",
+      "top": 816,
+      "height": 1127,
+      "width": 390,
+      "slug": "01-qui-n-soy",
+      "file": "section-01-qui-n-soy.png"
+    },
+    {
+      "tag": "section",
+      "id": "features",
+      "classes": "",
+      "heading": "Qué hago",
+      "top": 1967,
+      "height": 1071,
+      "width": 390,
+      "slug": "02-qu-hago",
+      "file": "section-02-qu-hago.png"
+    },
+    {
+      "tag": "section",
+      "id": "galeria",
+      "classes": "",
+      "heading": "Mi contenido",
+      "top": 4033,
+      "height": 383,
+      "width": 390,
+      "slug": "03-mi-contenido",
+      "file": "section-03-mi-contenido.png"
+    },
+    {
+      "tag": "section",
+      "id": null,
+      "classes": "gallery-row",
+      "heading": "Mis momentos",
+      "top": 4440,
+      "height": 756,
+      "width": 390,
+      "slug": "04-mis-momentos",
+      "file": "section-04-mis-momentos.png"
+    },
+    {
+      "tag": "section",
+      "id": null,
+      "classes": "gallery-row",
+      "heading": "Trabajo & marcas",
+      "top": 5221,
+      "height": 828,
+      "width": 390,
+      "slug": "05-trabajo-marcas",
+      "file": "section-05-trabajo-marcas.png"
+    },
+    {
+      "tag": "section",
+      "id": null,
+      "classes": "gallery-row",
+      "heading": "Decoración",
+      "top": 6074,
+      "height": 756,
+      "width": 390,
+      "slug": "06-decoraci-n",
+      "file": "section-06-decoraci-n.png"
+    },
+    {
+      "tag": "section",
+      "id": null,
+      "classes": "gallery-row",
+      "heading": "Aire libre",
+      "top": 6855,
+      "height": 756,
+      "width": 390,
+      "slug": "07-aire-libre",
+      "file": "section-07-aire-libre.png"
+    },
+    {
+      "tag": "section",
+      "id": null,
+      "classes": "",
+      "heading": "¿Tenés una marca o emprendimiento?",
+      "top": 8575,
+      "height": 521,
+      "width": 390,
+      "slug": "08-ten-s-una-marca-o-emprendimi",
+      "file": "section-08-ten-s-una-marca-o-emprendimi.png"
+    },
+    {
+      "tag": "section",
+      "id": "contacto",
+      "classes": "contacto",
+      "heading": "Contacto",
+      "top": 9116,
+      "height": 531,
+      "width": 390,
+      "slug": "09-contacto",
+      "file": "section-09-contacto.png"
+    }
+  ],
+  "errors": [],
+  "pageHeightCss": 8860,
+  "galleryPreClick": "galeria-pre-click.png"
+}
