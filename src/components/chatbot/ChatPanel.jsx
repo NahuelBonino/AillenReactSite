@@ -29,13 +29,10 @@ export default function ChatPanel({ open, onClose, prefill, onConsumePrefill }) 
     }, 1100)
   }
 
-  // Mensaje pre-cargado desde el CTA ("Trabajemos juntos"): burbuja del
-  // usuario + respuesta pre-armada.
   useEffect(() => {
     if (!open || !prefill) return
     sendUserMessage(prefill.message, prefill.reply)
     onConsumePrefill()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, prefill])
 
   useEffect(() => () => window.clearTimeout(typingTimer.current), [])
@@ -51,7 +48,6 @@ export default function ChatPanel({ open, onClose, prefill, onConsumePrefill }) 
         { opacity: 0, y: 1, scale: 0.98 },
         { opacity: 1, y: 0, scale: 1, duration: 0.3, ease: "power3.out" }
       )
-      setTimeout(() => inputRef.current?.focus(), 350)
     } else if (prefersReduced) {
       // Sin animación (reduced motion): ocultar directo
       panelRef.current.hidden = true
@@ -77,6 +73,22 @@ export default function ChatPanel({ open, onClose, prefill, onConsumePrefill }) 
     window.addEventListener('keydown', handleEsc)
     return () => window.removeEventListener('keydown', handleEsc)
   }, [open, onClose])
+
+  useEffect(() => {
+    if (!open) return undefined
+    const t = window.setTimeout(() => inputRef.current?.focus(), 400)
+    const scrollY = window.scrollY
+    document.body.style.position = 'fixed'
+    document.body.style.top = `-${scrollY}px`
+    document.body.style.width = '100%'
+    return () => {
+      window.clearTimeout(t)
+      document.body.style.position = ''
+      document.body.style.top = ''
+      document.body.style.width = ''
+      window.scrollTo(0, scrollY)
+    }
+  }, [open])
 
   const handleSubmit = (e) => {
     e.preventDefault()

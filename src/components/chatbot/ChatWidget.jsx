@@ -5,6 +5,12 @@ import ChatPanel from './ChatPanel'
 export default function ChatWidget({ open = false, prefill = null, onToggle, onConsumePrefill }) {
   return (
     <>
+      <div
+        className={`chat-overlay${open ? ' visible' : ''}`}
+        onClick={onToggle}
+        aria-hidden="true"
+      />
+
       <BorderBeam
         className="chat-beam chat-beam-toggle"
         size="sm"

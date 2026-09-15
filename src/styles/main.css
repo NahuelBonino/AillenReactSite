@@ -1018,12 +1018,27 @@ ul.icons>li>a>.icon {
    el wrapper es el que se posiciona y el hijo va estático adentro.
    El selector .chat-beam-x[data-beam] (0,2,0) gana a [data-beam="..."] (0,1,0). */
 
+.chat-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 10005;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.chat-overlay.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
 .chat-beam-toggle[data-beam] {
   position: fixed;
   bottom: 1.5rem;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 10001;
+  z-index: 10006;
   display: flex;
   width: max-content;
   pointer-events: none;
@@ -1040,7 +1055,7 @@ ul.icons>li>a>.icon {
   bottom: calc(1.5rem + 3.75rem + 1rem);
   left: 50%;
   transform: translateX(-50%);
-  z-index: 10000;
+  z-index: 10006;
   width: min(92vw, 28rem);
   height: min(70vh, 32rem);
   /* md recorta el bloom; lo dejamos visible para no perder la sombra del panel */
