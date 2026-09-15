@@ -24,6 +24,7 @@
 }
 
 html {
+  font-size: 16px;
   overflow-x: hidden;
   scroll-behavior: auto;
 }
@@ -71,12 +72,12 @@ h1 {
 }
 
 h2 {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   margin: 0 0 2rem 0;
 }
 
 h3 {
-  font-size: 0.875rem;
+  font-size: 1.125rem;
   font-weight: 600;
   margin: 0 0 1.5rem 0;
 }
@@ -131,7 +132,6 @@ img {
   white-space: nowrap;
 }
 
-/* Métricas de comunidad (StatCounter) */
 .stat-cards {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -144,7 +144,6 @@ img {
 .stat-card {
   align-items: center;
   background: #ffffff;
-  border: solid 2px var(--border);
   border-radius: var(--radius);
   display: flex;
   flex-direction: column;
@@ -161,7 +160,7 @@ img {
 .stat-value {
   color: var(--accent);
   font-family: var(--font-heading);
-  font-size: 1.1rem !important;
+  font-size: 1.25rem !important;
   font-weight: 800;
   letter-spacing: 0.05em;
   line-height: 1.1;
@@ -170,7 +169,7 @@ img {
 
 .stat-label {
   font-family: var(--font-heading);
-  font-size: 0.6rem !important;
+  font-size: 0.75rem !important;
   font-weight: 600;
   letter-spacing: 0.175em;
   margin: 0;
@@ -432,7 +431,7 @@ a.arrow::before {
   cursor: pointer;
   display: inline-block;
   font-family: var(--font-heading);
-  font-size: 0.6rem;
+  font-size: 0.75rem;
   font-weight: 600;
   height: 3rem;
   letter-spacing: 0.175em;
@@ -457,7 +456,7 @@ a.arrow::before {
 }
 
 .button.large {
-  font-size: 0.7rem;
+  font-size: 0.875rem;
   height: 3.2625rem;
   line-height: 3.2625rem;
   padding: 0 3.25rem;
@@ -722,7 +721,7 @@ ul.icons>li>a>.icon {
 
 .wrapper .copyright {
   color: var(--placeholder);
-  font-size: 1rem;
+  font-size: 0.9375rem;
   left: 50vw;
   position: relative;
   width: 50vw;
@@ -825,7 +824,7 @@ ul.icons>li>a>.icon {
 
 .nav-link {
   font-family: var(--font-heading);
-  font-size: 0.6rem;
+  font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.175em;
   text-transform: uppercase;
@@ -898,7 +897,7 @@ ul.icons>li>a>.icon {
 
 .video-panel-text p,
 #wrapper section>.content p {
-  font-size: 1.2rem;
+  font-size: 1.125rem;
   line-height: 2;
 }
 
@@ -926,7 +925,7 @@ ul.icons>li>a>.icon {
 
 #wrapper>section.gallery-row>header p {
   margin-bottom: 0;
-  font-size: 1.2rem;
+  font-size: 1.125rem;
 }
 
 .tiktok-embed-wrap {
@@ -986,7 +985,7 @@ ul.icons>li>a>.icon {
   color: #ffffff;
   text-align: center;
   font-family: var(--font-heading);
-  font-size: 0.7rem;
+  font-size: 0.8125rem;
   font-weight: 600;
   letter-spacing: 0.175em;
   text-transform: uppercase;
@@ -1092,7 +1091,7 @@ ul.icons>li>a>.icon {
   color: #ffffff !important;
   cursor: pointer;
   font-family: var(--font-heading);
-  font-size: 0.8rem;
+  font-size: 0.875rem;
   font-weight: 600;
   letter-spacing: 0.175em;
   text-transform: uppercase;
@@ -1138,7 +1137,7 @@ ul.icons>li>a>.icon {
   background: var(--accent);
   color: #ffffff;
   font-family: var(--font-heading);
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   font-weight: 600;
   letter-spacing: 0.175em;
   text-transform: uppercase;
@@ -1175,7 +1174,7 @@ ul.icons>li>a>.icon {
 
 .chat-msg p {
   margin: 0;
-  font-size: 0.9rem;
+  font-size: 0.9375rem;
   line-height: 1.75;
   padding: 0.75rem 1rem;
   border-radius: 0.325rem;
@@ -1258,7 +1257,7 @@ ul.icons>li>a>.icon {
   color: #000000;
   cursor: pointer;
   font-family: var(--font-heading);
-  font-size: 0.5rem;
+  font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.125em;
   line-height: 1.4;
@@ -1316,17 +1315,7 @@ ul.icons>li>a>.icon {
   font-size: 1rem;
 }
 
-@media (max-width: 1920px) {
-  html {
-    font-size: 13pt;
-  }
-}
-
 @media (max-width: 1280px) {
-  html {
-    font-size: 13pt;
-  }
-
   #wrapper {
     padding-bottom: 8rem;
   }
@@ -1373,8 +1362,11 @@ ul.icons>li>a>.icon {
 }
 
 @media (max-width: 1152px) {
-  html {
-    font-size: 14pt;
+  h2 {
+    font-size: 1.55rem;
+    margin: auto;
+    justify-content: center;
+    display: flex;
   }
 
   #wrapper {
@@ -1450,7 +1442,7 @@ ul.icons>li>a>.icon {
   }
 
   #wrapper section>header {
-    padding: 4rem 4rem;
+    padding: 4rem 3rem;
   }
 
   #wrapper section>.content {
@@ -1484,10 +1476,6 @@ ul.icons>li>a>.icon {
 }
 
 @media (max-width: 736px) {
-  html {
-    font-size: 12pt;
-  }
-
   h1 {
     font-size: 4.5rem;
   }
@@ -1502,7 +1490,7 @@ ul.icons>li>a>.icon {
   }
 
   h2 {
-    font-size: 2rem;
+    font-size: 1.125rem;
     line-height: 1.7;
     margin: auto;
     justify-content: center;
@@ -1510,7 +1498,7 @@ ul.icons>li>a>.icon {
   }
 
   h3 {
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
 
   #wrapper section>header {
@@ -1555,17 +1543,22 @@ ul.icons>li>a>.icon {
   }
 
   .button {
-    font-size: 0.7rem;
+    font-size: 0.875rem;
     height: 3.3rem;
     line-height: 3.3rem;
     width: 70%;
   }
 
   .button.large {
-    font-size: 0.8rem;
+    font-size: 1rem;
     height: 3.75rem;
     line-height: 3.75rem;
     padding: 0;
+  }
+
+  .video-panel-text p,
+  #wrapper section>.content p {
+    font-size: 1rem;
   }
 
   .navbar {
@@ -1601,6 +1594,9 @@ ul.icons>li>a>.icon {
   .navbar.open .nav-link {
     height: 2.5rem;
     line-height: 2.5rem;
+    width: 100%;
+    font-size: 0.875rem;
+    text-align: center;
   }
 
   .video-panel {
@@ -1618,14 +1614,20 @@ ul.icons>li>a>.icon {
     margin: 0 auto;
   }
 
+  .video-panel-text p:not(:first-of-type) {
+    display: none;
+  }
+
   ul.actions {
     flex-direction: column;
-    gap:20px;
+    align-items: center;
+    gap: 20px;
   }
 
   ul.actions>li {
     width: 100%;
     text-align: center;
+    padding: 0;
   }
   
   #wrapper>section.intro>.content{
@@ -1634,10 +1636,6 @@ ul.icons>li>a>.icon {
 }
 
 @media (max-width: 480px) {
-  html {
-    font-size: 11pt;
-  }
-
   #wrapper>section.intro>header .title-morph::before {
     background: var(--accent-dark);
     content: '';
@@ -1691,7 +1689,7 @@ ul.icons>li>a>.icon {
   }
 
   .button {
-    font-size: 0.7rem;
+    font-size: 0.875rem;
     height: 3.3rem;
     line-height: 3.3rem;
     width: 80%;
@@ -1742,10 +1740,10 @@ ul.icons>li>a>.icon {
   }
 
   h2 {
-    font-size: 1.125rem;
+    font-size: 1rem;
   }
 
   h3 {
-    font-size: 1.1rem;
+    font-size: 0.875rem;
   }
 }
