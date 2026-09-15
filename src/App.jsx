@@ -1,8 +1,9 @@
-import { useRef, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { gsap } from "gsap"
 import { useGSAP } from "@gsap/react"
 import useGsapReveal from './hooks/useGsapReveal'
 import useTimelineDraw from './hooks/useTimelineDraw'
+import useHeadingLetterReveal from './hooks/useHeadingLetterReveal'
 import { prefersReducedMotion } from './hooks/usePrefersReducedMotion'
 import Navbar from './components/Navbar'
 import Intro from './components/Intro'
@@ -12,15 +13,28 @@ import VideoPanel from './components/VideoPanel'
 import CtaButtons from './components/CtaButtons'
 import ContactFooter from './components/ContactFooter'
 import Copyright from './components/Copyright'
+import SocialStats from './components/SocialStats'
 import ChatWidget from './components/chatbot/ChatWidget'
-import { first, features, gallery, cta, contact, socials, videoPanels } from './data/content'
+import { first, features, gallery, cta, contact, socials, socialStats, videoPanels, chatPresets } from './data/content'
 
 function App() {
   const wrapperRef = useRef(null)
   const [ready, setReady] = useState(false)
+  const [chat, setChat] = useState({ open: false, prefill: null })
+
+  const toggleChat = useCallback(
+    () => setChat((c) => (c.open ? { open: false, prefill: null } : { open: true, prefill: null })),
+    []
+  )
+
+  const consumePrefill = useCallback(
+    () => setChat((c) => ({ ...c, prefill: null })),
+    []
+  )
 
   useGsapReveal()
   useTimelineDraw()
+  useHeadingLetterReveal()
 
   useGSAP(() => {
     const prefersReduced = prefersReducedMotion()
@@ -52,12 +66,13 @@ function App() {
   return (
     <div id="wrapper" className="wrapper" ref={wrapperRef} style={{ opacity: ready ? 1 : 0 }}>
       <Navbar />
-      <Intro />
+      <Intro ready={ready} />
 
       <section id="first" className="quien-soy">
         <header><h2>{first.title}</h2></header>
         <div className="content">
           <p dangerouslySetInnerHTML={{ __html: first.text }}></p>
+          <SocialStats stats={socialStats} />
         </div>
       </section>
 
@@ -107,7 +122,10 @@ function App() {
         <header><h2>{cta.title}</h2></header>
         <div className="content">
           <p dangerouslySetInnerHTML={{ __html: cta.text }}></p>
-          <CtaButtons buttons={cta.buttons} />
+          <CtaButtons
+            buttons={cta.buttons}
+            onPrimaryClick={() => setChat({ open: true, prefill: chatPresets.work })}
+          />
         </div>
       </section>
 
@@ -120,7 +138,12 @@ function App() {
       </section>
 
       <Copyright />
-      <ChatWidget />
+      <ChatWidget
+        open={chat.open}
+        prefill={chat.prefill}
+        onToggle={toggleChat}
+        onConsumePrefill={consumePrefill}
+      />
     </div>
   )
 }

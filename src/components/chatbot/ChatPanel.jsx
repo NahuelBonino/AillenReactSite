@@ -2,14 +2,43 @@ import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { prefersReducedMotion } from '../../hooks/usePrefersReducedMotion'
+import { socials, chatPresets } from '../../data/content'
 
-export default function ChatPanel({ open, onClose }) {
+const quickReplies = [
+  { label: 'Tarifas para marcas', message: chatPresets.work.message, reply: chatPresets.work.reply },
+  { label: 'Instagram', url: socials.find((s) => s.icon.includes('instagram'))?.url },
+  { label: 'TikTok', url: socials.find((s) => s.icon.includes('tiktok'))?.url },
+].filter((q) => Boolean(q.message || q.url))
+
+export default function ChatPanel({ open, onClose, prefill, onConsumePrefill }) {
   const panelRef = useRef(null)
   const inputRef = useRef(null)
+  const typingTimer = useRef(null)
   const [messages, setMessages] = useState([
-    { role: 'bot', text: '¡Hola! ¿En qué podemos ayudarte?' },
+    { role: 'bot', text: '¡Hola soy Pedrito el asistente de Aillu! ¿En qué podemos ayudarte?' },
   ])
   const [typing, setTyping] = useState(false)
+
+  const sendUserMessage = (text, reply) => {
+    setMessages((prev) => [...prev, { role: 'user', text }])
+    setTyping(true)
+    window.clearTimeout(typingTimer.current)
+    typingTimer.current = window.setTimeout(() => {
+      setTyping(false)
+      setMessages((prev) => [...prev, { role: 'bot', text: reply }])
+    }, 1100)
+  }
+
+  // Mensaje pre-cargado desde el CTA ("Trabajemos juntos"): burbuja del
+  // usuario + respuesta pre-armada.
+  useEffect(() => {
+    if (!open || !prefill) return
+    sendUserMessage(prefill.message, prefill.reply)
+    onConsumePrefill()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, prefill])
+
+  useEffect(() => () => window.clearTimeout(typingTimer.current), [])
 
   useGSAP(() => {
     const prefersReduced = prefersReducedMotion()
@@ -54,17 +83,8 @@ export default function ChatPanel({ open, onClose }) {
     const text = inputRef.current?.value.trim()
     if (!text) return
 
-    setMessages(prev => [...prev, { role: 'user', text }])
     inputRef.current.value = ''
-    setTyping(true)
-
-    setTimeout(() => {
-      setTyping(false)
-      setMessages(prev => [
-        ...prev,
-        { role: 'bot', text: '¡Gracias por tu mensaje! Un asistente te va a responder en breve.' },
-      ])
-    }, 1200)
+    sendUserMessage(text, '¡Gracias por tu mensaje! Lo tengo en cuenta. Para respuestas al instante podes escribirme por Instagram o TikTok.')
   }
 
   return (
@@ -72,7 +92,7 @@ export default function ChatPanel({ open, onClose }) {
       <header className="chat-header">
         <div className="chat-header-title">
           <span className="icon solid fa-robot" aria-hidden="true"></span>
-          <span>Asistente</span>
+          <span>Asistente Pedrito</span>
         </div>
         <button className="chat-close" onClick={onClose} aria-label="Cerrar chat">
           <span className="icon solid fa-times"></span>
@@ -90,6 +110,30 @@ export default function ChatPanel({ open, onClose }) {
             <span></span>
             <span></span>
           </div>
+        )}
+      </div>
+      <div className="chat-quick-replies">
+        {quickReplies.map((q) =>
+          q.url ? (
+            <a
+              key={q.label}
+              className="chat-chip"
+              href={q.url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {q.label}
+            </a>
+          ) : (
+            <button
+              key={q.label}
+              type="button"
+              className="chat-chip"
+              onClick={() => sendUserMessage(q.message, q.reply)}
+            >
+              {q.label}
+            </button>
+          )
         )}
       </div>
       <form className="chat-input" onSubmit={handleSubmit}>

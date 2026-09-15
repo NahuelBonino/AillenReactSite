@@ -10,16 +10,23 @@ export const first = {
   image: "/images/fotosAillen/compro-unas-crocs-grito-gracioso.jpg",
 };
 
+// Métricas de comunidad (contador animado en la sección "Quién soy").
+export const socialStats = [
+  { icon: "fa-instagram", label: "Seguidores en Instagram", value: 11800, suffix: "+" },
+  { icon: "fa-tiktok", label: "Seguidores en TikTok", value: 7666, suffix: "+" },
+  { icon: "fa-tiktok", label: "Me gusta en TikTok", value: 846.6, suffix: "K", decimals: 1 },
+];
+
 export const features = {
   title: "Qué hago",
   leadText: `<strong>Ayudo a empresas y emprendimientos</strong> a tener más impacto en las personas con contenido auténtico y estrategias que conectan. Cada campaña se piensa a medida: qué dice tu marca, quién la mira y cómo llegar más lejos con ideas que se sienten reales.`,
   icons: [
-    { icon: "fa-laptop", text: "Contenido de alta calidad" },
-    { icon: "fa-bolt", text: "Ideas creativas que conectan" },
+    { icon: "fa-mobile", text: "Contenido de alta calidad" },
+    { icon: "fa-lightbulb", text: "Ideas creativas que conectan" },
     { icon: "fa-signal", text: "Mayor alcance y crecimiento" },
-    { icon: "fa-cog", text: "Gestión integral de redes y campañas" },
+    { icon: "fa-flag", text: "Gestión integral de redes y campañas" },
     { icon: "fa-map-marker-alt", text: "Comunidad local uruguaya" },
-    { icon: "fa-code", text: "Colaboraciones a medida" },
+    { icon: "fa-handshake", text: "Colaboraciones a medida" },
   ],
   bottomText: `Marcas con las que colaboro y métricas de impacto de la comunidad: más alcance, más interacción y una audiencia que confía en lo que ve.`,
 };
@@ -84,8 +91,8 @@ export const contact = {
 };
 
 export const socials = [
-  { icon: "fa-instagram", url: "https://www.instagram.com/aillugarcia/", label: "Instagram" },
-  { icon: "fa-tiktok", url: "https://www.tiktok.com/@aillugarcia", label: "TikTok" },
+  { icon: "fa-instagram icon-social", url: "https://www.instagram.com/aillugarcia/", label: "Instagram" },
+  { icon: "fa-tiktok icon-social", url: "https://www.tiktok.com/@aillugarcia", label: "TikTok" },
 ];
 
 export const navLinks = [
@@ -119,4 +126,15 @@ export const videoPanels = [
   },
 ];
 
-export const copyright = "© Untitled. All rights reserved. Design: HTML5 UP.";
+export const copyright = "Aillu Garcia · Todos los derechos reservados";
+
+// Respuestas pre-armadas del chatbot (solo UI por ahora).
+export const chatPresets = {
+  work: {
+    message: "Quiero información de cómo sería trabajar contigo",
+    reply:
+      "¡Genial que quieras colaborar! Cada trabajo se arma a medida, así que las tarifas dependen del tipo de campaña. " +
+      "Como referencia, para contenido publicitario cobro $3.000 por video. " +
+      "Contame qué marca o producto tenés en mente y te paso una propuesta sin compromiso.",
+  },
+};

@@ -7,7 +7,7 @@ export default function ChatToggle({ open, onToggle }) {
       onClick={onToggle}
     >
       <span className={`icon solid ${open ? 'fa-times' : 'fa-comments'}`} aria-hidden="true"></span>
-      <span className="chat-toggle-label">{open ? 'Cerrar chat' : 'Chateá con mi asitente'}</span>
+      <span className="chat-toggle-label">{open ? 'Cerrar chat' : 'Chateá con mi asistente'}</span>
     </button>
   )
 }

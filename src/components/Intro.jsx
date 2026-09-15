@@ -1,13 +1,14 @@
 import useSmoothScroll from '../hooks/useSmoothScroll'
+import AnimatedTitle from './AnimatedTitle'
 import { intro } from '../data/content'
 
-export default function Intro() {
+export default function Intro({ ready = true }) {
   const { scrollTo } = useSmoothScroll()
 
   return (
     <section className="intro" id="intro">
       <header>
-        <h1>{intro.title}</h1>
+        <AnimatedTitle text={intro.title} ready={ready} />
         <p>{intro.subtitle}</p>
         <ul className="actions">
           <li>

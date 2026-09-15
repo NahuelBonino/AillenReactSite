@@ -41,7 +41,7 @@ export default function Gallery({ images }) {
               openLightbox(image)
             }}
           >
-            <img src={image.src} alt={`Galería ${idx + 1}`} />
+            <img src={image.src} alt={`Galería ${idx + 1}`} className="image-hover" />
           </a>
         ))}
       </div>

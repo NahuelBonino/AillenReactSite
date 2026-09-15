@@ -27,17 +27,28 @@
 - [ ] 3.2 Verificar estado abierto del chat toggle (icono X + label "Cerrar chat") tras fix fa-times
 - [ ] 3.3 Pasada responsive en breakpoints 1280 / 1152 / 736 / 480 / 360 (navbar hamburger, video-panel, chat, galería)
 - [ ] 3.4 Pasada visual con prefers-reduced-motion activado (página visible, sin animaciones)
+- [ ] 3.5 Verificación en browser (sin headless disponible): flujo CTA→chat (prefill + respuesta), nav "Contacto" aterriza en el título, chips de respuestas rápidas, copyright con año, metadatos OG/Twitter
 
 ## 4. Limpieza
 - [x] 4.1 Quitado `@fortawesome/fontawesome-free` (pnpm remove)
 - [x] 4.2 Helper unificado: `prefersReducedMotion()` en `usePrefersReducedMotion.js`; reemplaza 7 usos inline de matchMedia (App, Navbar, ChatPanel, VideoPanel, useGsapReveal, useTimelineDraw, useSmoothScroll)
 - [x] 4.3 Eliminado `verify.mjs` + devDep `playwright` + `package-lock.json` (resto de npm)
-- [ ] 4.4 (PENDIENTE DECISIÓN) `assets/` e `images/` en raíz: recursos originales de la plantilla — ¿conservar como referencia o borrar?
+- [x] 4.4 Borrado `images/` de la raíz (duplicado exacto de `public/images`; git rm). `assets/` en raíz sigue pendiente de decisión
+- [x] 4.5 `#wrapper::before` duplicada consolidada: primera regla quedó con posicionamiento + `background-attachment: fixed`; la segunda pinta gradiente + grano. Eliminado el patrón geométrico muerto y las vars `--pattern-fill`/`--pattern-fill-strong` sin uso
+- [x] 4.6 Google Fonts: `@import` del top de `main.css` → `<link>` con preconnect en `index.html`
+- [x] 4.7 `ul.actions` restaurado al estilo de la spec (sin `justify-content: space-between` ni `gap` raro)
 
 ## 5. Verificación final
 - [ ] 5.1 Verificación visual manual (browser): chat abierto/cerrado, timeline-end-dot, lightbox (ESC + scroll lock), menú móvil, reduced-motion. `verify.mjs` ya no existe
 - [x] 5.2 `pnpm build` sin errores + `dist/` inspeccionado
 
-## 6. A la espera del usuario (no bugs)
-- [ ] 6.1 URLs reales de TikTok — reemplazar `TIKTOK_VIDEO_URL_1/2` en `src/data/content.js:92,101`
-- [ ] 6.2 Contenido real — textos lorem ipsum, email/teléfono/dirección (`content.js:68-70`), socials con `href="#"` (`content.js:74-80`)
+## 6. Contenido
+- [x] 6.1 URLs reales de TikTok — `src/data/content.js` usa `7398333545455947014` (trabajo) y `7478137171463933239` (vida real)
+- [x] 6.2 Contenido real — textos propios, copyright personalizado con año (`Copyright.jsx`), socials con URLs reales, email/tel sin publicar por decisión de marca
+
+## 7. Mejoras de producto (esta sesión)
+- [x] 7.1 SEO/metadatos en `index.html`: title, meta description, Open Graph, Twitter Card, theme-color, favicon
+- [x] 7.2 Typo "asitente" → "asistente" (`ChatToggle.jsx`)
+- [x] 7.3 CTA primario "Trabajemos juntos" abre el chat con prefill "Quiero información de cómo sería trabajar contigo" + respuesta con tarifas (`App.jsx`, `CtaButtons.jsx`, `ChatPanel.jsx`, `content.js`)
+- [x] 7.4 Chat controlado desde `App.jsx` (open + prefill) + respuestas rápidas (chips) a marcas/Instagram/TikTok (`ChatWidget.jsx`, `ChatPanel.jsx`, `main.css`)
+- [x] 7.5 Fix scroll del nav "Contacto": el `offsetY: 100` fijo aterrizaba en la sección CTA (espaciado real entre secciones 20-35px, no 7.5rem). Ahora `useSmoothScroll` hace scroll determinístico a la posición exacta con clamp al scroll máximo

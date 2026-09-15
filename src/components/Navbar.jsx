@@ -1,6 +1,7 @@
-import { useEffect, useRef } from 'react'
+import { useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { useGSAP } from '@gsap/react'
+import Hamburger from 'hamburger-react'
 import { navLinks } from '../data/content'
 import useSmoothScroll from '../hooks/useSmoothScroll'
 import useScrollSpy from '../hooks/useScrollSpy'
@@ -8,7 +9,7 @@ import { prefersReducedMotion } from '../hooks/usePrefersReducedMotion'
 
 export default function Navbar() {
   const navRef = useRef(null)
-  const toggleRef = useRef(null)
+  const [isOpen, setIsOpen] = useState(false)
   const { scrollTo } = useSmoothScroll()
   const activeSection = useScrollSpy()
 
@@ -22,7 +23,7 @@ export default function Navbar() {
 
   const handleNavClick = (e, href) => {
     e.preventDefault()
-    navRef.current.classList.remove('open')
+    setIsOpen(false)
     // Activa el link clickeado al instante (el scroll-spy lo re-corrige al scrollear)
     navRef.current.querySelectorAll('.nav-link').forEach((el) => {
       const isActive = el.getAttribute('href') === href
@@ -33,15 +34,16 @@ export default function Navbar() {
 
   return (
     <>
-      <button
-        className="navbar-toggle"
-        ref={toggleRef}
-        onClick={() => navRef.current.classList.toggle('open')}
-        aria-label="Toggle navigation"
-      >
-        <span></span>
-      </button>
-      <nav className="navbar" ref={navRef}>
+      <div className="navbar-toggle">
+        <Hamburger
+          toggled={isOpen}
+          toggle={setIsOpen}
+          size={28}
+          label="Toggle navigation"
+          hideOutline={false}
+        />
+      </div>
+      <nav className={isOpen ? 'navbar open' : 'navbar'} ref={navRef}>
         {navLinks.map((link) => (
           <a
             key={link.href}

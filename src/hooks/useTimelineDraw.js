@@ -8,10 +8,10 @@ gsap.registerPlugin(ScrollTrigger)
 export default function useTimelineDraw() {
   useEffect(() => {
     const prefersReduced = prefersReducedMotion()
+    const created = []
 
     const ctx = gsap.context(() => {
       document.querySelectorAll('#wrapper > section').forEach((section) => {
-        // El intro (hero) no lleva línea de timeline
         if (section.classList.contains('intro')) return
 
         const header = section.querySelector(':scope > header')
@@ -24,6 +24,7 @@ export default function useTimelineDraw() {
         const line = document.createElement('div')
         line.className = 'timeline-line'
         section.appendChild(line)
+        created.push(line)
 
         if (prefersReduced) return
 
@@ -42,31 +43,31 @@ export default function useTimelineDraw() {
 
       const lastSection = document.querySelector('#wrapper > section:last-of-type')
       if (lastSection && !prefersReduced) {
-        const footer = lastSection.querySelector(':scope > footer')
-        if (footer) {
-          const endDot = document.createElement('div')
-          endDot.className = 'timeline-end-dot'
-          footer.style.position = 'relative'
-          footer.appendChild(endDot)
+        const endDot = document.createElement('div')
+        endDot.className = 'timeline-end-dot'
+        lastSection.appendChild(endDot)
+        created.push(endDot)
 
-          gsap.fromTo(endDot,
-            { scale: 0, opacity: 0 },
-            {
-              scale: 1,
-              opacity: 1,
-              duration: 0.5,
-              ease: "power2.out",
-              scrollTrigger: {
-                trigger: footer,
-                start: "top bottom",
-                once: true,
-              },
-            }
-          )
-        }
+        gsap.fromTo(endDot,
+          { scale: 0, opacity: 0 },
+          {
+            scale: 1,
+            opacity: 1,
+            duration: 0.5,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: endDot,
+              start: "top bottom",
+              once: true,
+            },
+          }
+        )
       }
     })
 
-    return () => ctx.revert()
+    return () => {
+      ctx.revert()
+      created.forEach((el) => el.remove())
+    }
   }, [])
 }
