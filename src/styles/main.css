@@ -1012,12 +1012,6 @@ ul.icons>li>a>.icon {
   filter: drop-shadow(0 0.25rem 0.75rem rgba(0, 0, 0, 0.45));
 }
 
-/* ---------- BorderBeam wrappers ----------
-   BorderBeam inyecta [data-beam] { position: relative; overflow: hidden } y los
-   hijos fixed quedan fuera del flujo (wrapper de 0x0 => beam invisible). Por eso
-   el wrapper es el que se posiciona y el hijo va estático adentro.
-   El selector .chat-beam-x[data-beam] (0,2,0) gana a [data-beam="..."] (0,1,0). */
-
 .chat-overlay {
   position: fixed;
   inset: 0;
@@ -1045,7 +1039,6 @@ ul.icons>li>a>.icon {
   transition: transform 0.25s ease-in-out;
 }
 
-/* el hover vive en el botón, el lift lo hace el wrapper (para que el beam suba con él) */
 .chat-beam-toggle[data-beam]:has(.chat-toggle:hover) {
   transform: translateX(-50%) translateY(-0.125rem);
 }
@@ -1058,7 +1051,6 @@ ul.icons>li>a>.icon {
   z-index: 10006;
   width: min(92vw, 28rem);
   height: min(70vh, 32rem);
-  /* md recorta el bloom; lo dejamos visible para no perder la sombra del panel */
   overflow: visible;
   pointer-events: none;
 }
@@ -1068,9 +1060,6 @@ ul.icons>li>a>.icon {
   pointer-events: auto;
 }
 
-/* Nítido: la CSS generada multiplica las capas por var(--beam-stroke-opacity, 1),
-   var(--beam-inner-opacity, 1) y var(--beam-bloom-opacity, 1) — por eso el
-   fallback en 1. Subimos el trazo y bajamos la neblina del bloom (blur 8px). */
 .chat-beam-toggle[data-beam] {
   --beam-stroke-opacity: 1.5;
   --beam-inner-opacity: 1.3;
@@ -1083,9 +1072,6 @@ ul.icons>li>a>.icon {
   --beam-bloom-opacity: 0.35;
 }
 
-/* trazo de 1px -> 2px para que el borde lea definido.
-   Doble clase (0,3,0) para ganarle a [data-beam][data-active]::after (0,2,0),
-   que Vite inyecta después de main.css. */
 .chat-beam.chat-beam-toggle[data-beam]::after,
 .chat-beam.chat-beam-panel[data-beam]::after {
   padding: 2px;
@@ -1589,6 +1575,7 @@ ul.icons>li>a>.icon {
     padding: 0.5rem 1rem;
     gap: 0.25rem;
     border-radius: 1rem;
+    transform: translateX(-50%) !important;
   }
 
   .navbar-toggle {
@@ -1701,6 +1688,7 @@ ul.icons>li>a>.icon {
   .chat-toggle {
     width: calc(100vw - 3rem);
     padding: 0 1.5rem;
+    font-size: 0.6rem;
   }
 
   .button {

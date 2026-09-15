@@ -24,7 +24,6 @@ export default function Navbar() {
   const handleNavClick = (e, href) => {
     e.preventDefault()
     setIsOpen(false)
-    // Activa el link clickeado al instante (el scroll-spy lo re-corrige al scrollear)
     navRef.current.querySelectorAll('.nav-link').forEach((el) => {
       const isActive = el.getAttribute('href') === href
       el.setAttribute('data-active', isActive ? 'true' : 'false')
