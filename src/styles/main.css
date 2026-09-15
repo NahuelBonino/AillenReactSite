@@ -361,6 +361,7 @@ ul.actions>li {
 #wrapper>section.intro>header>* {
   margin-left: auto;
   width: 100%;
+  justify-content: center;
 }
 
 .title-morph {
@@ -1619,6 +1620,7 @@ ul.icons>li>a>.icon {
 
   ul.actions {
     flex-direction: column;
+    gap:20px;
   }
 
   ul.actions>li {

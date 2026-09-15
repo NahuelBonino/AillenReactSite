@@ -112,30 +112,7 @@ export default function ChatPanel({ open, onClose, prefill, onConsumePrefill }) 
           </div>
         )}
       </div>
-      <div className="chat-quick-replies">
-        {quickReplies.map((q) =>
-          q.url ? (
-            <a
-              key={q.label}
-              className="chat-chip"
-              href={q.url}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {q.label}
-            </a>
-          ) : (
-            <button
-              key={q.label}
-              type="button"
-              className="chat-chip"
-              onClick={() => sendUserMessage(q.message, q.reply)}
-            >
-              {q.label}
-            </button>
-          )
-        )}
-      </div>
+  
       <form className="chat-input" onSubmit={handleSubmit}>
         <input
           type="text"
